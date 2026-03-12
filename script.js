@@ -1,4 +1,4 @@
-// Все ваши рабочие ссылки (23 штуки)
+// Все ваши рабочие ссылки для товаров (23 штуки)
 const imageUrls = [
     // Старые (7)
     'https://i.ibb.co/ynJxgrcG/image.jpg',
@@ -26,7 +26,7 @@ const imageUrls = [
     'https://i.ibb.co/pvYqfJKm/benchy.webp'
 ];
 
-// Категории (без изменений)
+// Структура категорий
 const categories = [
     {
         id: 'toys',
@@ -96,7 +96,7 @@ for (let i = 0; i < 250; i++) {
     });
 }
 
-// Корзина и остальной код (без изменений, идёт ниже)
+// Корзина
 let cart = [];
 let currentCategory = null;
 
@@ -295,6 +295,7 @@ checkoutBtn.addEventListener('click', () => {
     alert('Оформление заказа (демо-режим)');
 });
 
+// Инициализация
 buildCategoryTree();
 populateCategorySelect();
 renderProducts();
