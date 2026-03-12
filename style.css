@@ -6,11 +6,9 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    /* НОВЫЙ ФОН: смесь 3D-печати и майнкрафта (пиксельный паттерн + 3D-принтер) */
+    /* НОВЫЙ ФОН: пиксельный закат (ваша ссылка) */
     background: url('https://i.ibb.co/TBc42cKW/pikseli-minimalizm-ozero-zakat.jpg') no-repeat center center fixed;
     background-size: cover;
-    /* Дополнительно накладываем полупрозрачный пиксельный паттерн для атмосферы Minecraft */
-    background-blend-mode: overlay;
     color: #333;
     line-height: 1.6;
 }
