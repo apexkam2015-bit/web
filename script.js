@@ -53,23 +53,23 @@ const categories = [
         name: 'Игрушки',
         subcategories: [
             { id: 'cartoon', name: 'Мультики', image: 'https://i.ibb.co/MDhcngwJ/image.webp' },
-            { id: 'animals', name: 'Животные', image: 'https://via.placeholder.com/50?text=Animals' }
+            { id: 'animals', name: 'Животные', image: 'https://i.ibb.co/f7zqG5S/image.jpg' }
         ]
     },
     {
         id: 'modeling',
         name: 'Моделирование',
         subcategories: [
-            { id: 'ground', name: 'Наземная техника', image: 'https://via.placeholder.com/50?text=Ground' },
-            { id: 'air', name: 'Авиатехника', image: 'https://via.placeholder.com/50?text=Air' }
+            { id: 'ground', name: 'Наземная техника', image: 'https://i.ibb.co/f7zqG5S/image.jpg' },
+            { id: 'air', name: 'Авиатехника', image: 'https://i.ibb.co/f7zqG5S/image.jpg' }
         ]
     },
     {
         id: 'household',
         name: 'Бытовые модели',
         subcategories: [
-            { id: 'home', name: 'Для дома', image: 'https://via.placeholder.com/50?text=Home' },
-            { id: 'garage', name: 'Для гаража', image: 'https://via.placeholder.com/50?text=Garage' }
+            { id: 'home', name: 'Для дома', image: 'https://i.ibb.co/f7zqG5S/image.jpg' },
+            { id: 'garage', name: 'Для гаража', image: 'https://i.ibb.co/f7zqG5S/image.jpg' }
         ]
     }
 ];
