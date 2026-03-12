@@ -1,4 +1,24 @@
-// Все ваши рабочие ссылки для товаров (23 штуки)
+// ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (НОВЫЙ КОД) ==========
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+function setTheme(theme) {
+    body.classList.remove('theme-light', 'theme-dark');
+    body.classList.add(theme);
+    themeToggle.textContent = theme === 'theme-dark' ? '☀️' : '🌙';
+    localStorage.setItem('siteTheme', theme);
+}
+
+const savedTheme = localStorage.getItem('siteTheme') || 'theme-light';
+setTheme(savedTheme);
+
+themeToggle.addEventListener('click', () => {
+    const currentTheme = body.classList.contains('theme-dark') ? 'theme-dark' : 'theme-light';
+    const newTheme = currentTheme === 'theme-dark' ? 'theme-light' : 'theme-dark';
+    setTheme(newTheme);
+});
+
+// ========== ВСЕ ВАШИ ССЫЛКИ НА КАРТИНКИ (23 ШТУКИ) ==========
 const imageUrls = [
     // Старые (7)
     'https://i.ibb.co/ynJxgrcG/image.jpg',
@@ -26,7 +46,7 @@ const imageUrls = [
     'https://i.ibb.co/pvYqfJKm/benchy.webp'
 ];
 
-// Структура категорий
+// ========== СТРУКТУРА КАТЕГОРИЙ ==========
 const categories = [
     {
         id: 'toys',
@@ -54,7 +74,7 @@ const categories = [
     }
 ];
 
-// Генерация 250 товаров (равномерно по категориям)
+// ========== ГЕНЕРАЦИЯ 250 ТОВАРОВ ==========
 let products = [];
 const subcategoryIds = ['cartoon', 'animals', 'ground', 'air', 'home', 'garage'];
 const names = {
@@ -85,7 +105,7 @@ for (let i = 0; i < 250; i++) {
     const price = 300 + Math.floor(Math.random() * 3000);
     const description = descriptions[Math.floor(Math.random() * descriptions.length)];
     const image = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-    
+
     products.push({
         id: idCounter++,
         name: name,
@@ -96,11 +116,11 @@ for (let i = 0; i < 250; i++) {
     });
 }
 
-// Корзина
+// ========== КОРЗИНА ==========
 let cart = [];
 let currentCategory = null;
 
-// DOM элементы
+// ========== DOM ЭЛЕМЕНТЫ ==========
 const categoryTreeEl = document.getElementById('category-tree');
 const categoryTitle = document.getElementById('category-title');
 const productsContainer = document.getElementById('products-container');
@@ -117,6 +137,8 @@ const newImage = document.getElementById('new-image');
 const newDescription = document.getElementById('new-description');
 const newCategory = document.getElementById('new-category');
 const addProductBtn = document.getElementById('add-product-btn');
+
+// ========== ФУНКЦИИ ==========
 
 // Построение дерева категорий
 function buildCategoryTree() {
@@ -146,6 +168,7 @@ function buildCategoryTree() {
     });
 }
 
+// Подсветка активной категории
 function setActiveCategory(categoryId) {
     document.querySelectorAll('.subcategory li').forEach(li => {
         li.classList.remove('active');
@@ -157,11 +180,13 @@ function setActiveCategory(categoryId) {
     categoryTitle.textContent = cat ? cat.name : 'Все товары';
 }
 
+// Фильтрация товаров по категории
 function filterProductsByCategory(categoryId) {
     currentCategory = categoryId;
     renderProducts();
 }
 
+// Отображение товаров
 function renderProducts() {
     let filtered = products;
     if (currentCategory) {
@@ -188,6 +213,7 @@ function renderProducts() {
     });
 }
 
+// Добавление в корзину
 window.addToCart = function(productId) {
     const existing = cart.find(item => item.id === productId);
     if (existing) {
@@ -198,6 +224,7 @@ window.addToCart = function(productId) {
     updateCartUI();
 };
 
+// Удаление из корзины
 window.removeFromCart = function(productId) {
     cart = cart.filter(item => item.id !== productId);
     updateCartUI();
@@ -206,11 +233,13 @@ window.removeFromCart = function(productId) {
     }
 };
 
+// Обновление счётчика корзины
 function updateCartUI() {
     const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
     cartCount.textContent = totalItems;
 }
 
+// Отображение корзины в модальном окне
 function renderCartModal() {
     cartItemsList.innerHTML = '';
     let total = 0;
@@ -232,6 +261,7 @@ function renderCartModal() {
     cartTotal.textContent = total;
 }
 
+// Заполнение выпадающего списка категорий
 function populateCategorySelect() {
     let options = '';
     categories.forEach(cat => {
@@ -242,6 +272,7 @@ function populateCategorySelect() {
     newCategory.innerHTML = '<option value="">Выберите подкатегорию</option>' + options;
 }
 
+// Добавление нового товара
 addProductBtn.addEventListener('click', () => {
     const name = newName.value.trim();
     const price = parseFloat(newPrice.value);
@@ -276,6 +307,7 @@ addProductBtn.addEventListener('click', () => {
     }
 });
 
+// Обработчики модального окна корзины
 cartIcon.addEventListener('click', () => {
     renderCartModal();
     cartModal.style.display = 'block';
@@ -295,7 +327,7 @@ checkoutBtn.addEventListener('click', () => {
     alert('Оформление заказа (демо-режим)');
 });
 
-// Инициализация
+// ========== ИНИЦИАЛИЗАЦИЯ ==========
 buildCategoryTree();
 populateCategorySelect();
 renderProducts();
