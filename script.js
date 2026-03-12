@@ -1,4 +1,32 @@
-// Структура категорий (без изменений)
+// Все ваши рабочие ссылки (23 штуки)
+const imageUrls = [
+    // Старые (7)
+    'https://i.ibb.co/ynJxgrcG/image.jpg',
+    'https://i.ibb.co/f7zqG5S/image.jpg',
+    'https://i.ibb.co/0ypFrJr8/image.jpg',
+    'https://i.ibb.co/5XpBv6PC/image.jpg',
+    'https://i.ibb.co/sv9HCQPX/image.jpg',
+    'https://i.ibb.co/TDfxFJFh/image.jpg',
+    'https://i.ibb.co/MDhcngwJ/image.webp',
+    // Новые (16)
+    'https://i.ibb.co/svR65LG2/images-1.jpg',
+    'https://i.ibb.co/6S09nyv/1.png',
+    'https://i.ibb.co/q3kcJvzm/HR-Model2-CF-8.jpg',
+    'https://i.ibb.co/3ms70PD8/Tablemount-Model-1-CF-2.jpg',
+    'https://i.ibb.co/mCvP4hpL/536064e39d46d44d990b707de85ebbed-preview-featured.jpg',
+    'https://i.ibb.co/CSz2wNZ/7.png',
+    'https://i.ibb.co/MkfTj7RW/images.jpg',
+    'https://i.ibb.co/B5mR3Xdp/top10-3d-model-2.jpg',
+    'https://i.ibb.co/7NYVQdfS/1721250346176877711.jpg',
+    'https://i.ibb.co/dwP0Ghjq/2-68.png',
+    'https://i.ibb.co/h18xm625/dragon-3d-model-stl.jpg',
+    'https://i.ibb.co/fGPkgN7v/a0aa56767d9f4dbc9e8a7a959108d106.jpg',
+    'https://i.ibb.co/gFt5ZMtt/1-20.png',
+    'https://i.ibb.co/RkqMmgKm/shesterenka-podstavka-telefona-b08ce4a2.png',
+    'https://i.ibb.co/pvYqfJKm/benchy.webp'
+];
+
+// Категории (без изменений)
 const categories = [
     {
         id: 'toys',
@@ -26,54 +54,50 @@ const categories = [
     }
 ];
 
-// Все ваши ссылки (7 штук)
-const imageUrls = [
-    'https://i.ibb.co/ynJxgrcG/image.jpg',
-    'https://i.ibb.co/f7zqG5S/image.jpg',
-    'https://i.ibb.co/0ypFrJr8/image.jpg',
-    'https://i.ibb.co/5XpBv6PC/image.jpg',
-    'https://i.ibb.co/sv9HCQPX/image.jpg',
-    'https://i.ibb.co/TDfxFJFh/image.jpg',
-    'https://i.ibb.co/MDhcngwJ/image.webp'
+// Генерация 250 товаров (равномерно по категориям)
+let products = [];
+const subcategoryIds = ['cartoon', 'animals', 'ground', 'air', 'home', 'garage'];
+const names = {
+    cartoon: ['Чебурашка', 'Микки Маус', 'Губка Боб', 'Шрек', 'Хелло Китти', 'Пикачу', 'Симпсоны', 'Винни Пух'],
+    animals: ['Лев', 'Жираф', 'Слон', 'Тигр', 'Зебра', 'Обезьяна', 'Крокодил', 'Панда'],
+    ground: ['Танк Т-34', 'БТР-80', 'Военный джип', 'Бульдозер', 'Экскаватор', 'Трактор', 'Броневик', 'Танк "Тигр"'],
+    air: ['Истребитель Су-27', 'Вертолёт Ка-52', 'Бомбардировщик B-2', 'Самолёт Ан-2', 'Истребитель F-16', 'Вертолёт Ми-24', 'Планер', 'Квадрокоптер'],
+    home: ['Ваза с узором', 'Подставка под кружку', 'Светильник', 'Держатель для книг', 'Мыльница', 'Крючок для одежды', 'Горшок для цветов', 'Ручка для двери'],
+    garage: ['Держатель для инструментов', 'Крючок для шланга', 'Ящик для мелочей', 'Органайзер для гаек', 'Лоток для ключей', 'Полка для банок', 'Держатель для дрели', 'Магнит для инструментов']
+};
+const descriptions = [
+    'Качественная 3D-печать, PLA пластик',
+    'Прочная модель, высота 10 см',
+    'Детализированная фигурка',
+    'Подходит для подарка',
+    'Ручная постобработка',
+    'Модель с подвижными элементами',
+    'Экологичный материал',
+    'Яркий цвет, не выгорает'
 ];
 
-// УТРОЕННОЕ количество товаров (18 штук) с хаотичным распределением ссылок
-let products = [
-    // Игрушки -> Мультики (3 товара)
-    { id: 1, name: 'Чебурашка', price: 1200, description: 'Фигурка Чебурашки, 10 см', image: imageUrls[0], category: 'cartoon' },
-    { id: 2, name: 'Микки Маус', price: 1300, description: 'Мышка Микки, 12 см', image: imageUrls[6], category: 'cartoon' },
-    { id: 3, name: 'Губка Боб', price: 1100, description: 'Квадратные штаны', image: imageUrls[3], category: 'cartoon' },
+let idCounter = 1;
+for (let i = 0; i < 250; i++) {
+    const catIndex = i % subcategoryIds.length;
+    const catId = subcategoryIds[catIndex];
+    const nameIndex = Math.floor(Math.random() * names[catId].length);
+    const name = names[catId][nameIndex] + ' ' + (Math.floor(i / subcategoryIds.length) + 1);
+    const price = 300 + Math.floor(Math.random() * 3000);
+    const description = descriptions[Math.floor(Math.random() * descriptions.length)];
+    const image = imageUrls[Math.floor(Math.random() * imageUrls.length)];
     
-    // Игрушки -> Животные (3 товара)
-    { id: 4, name: 'Лев', price: 1500, description: 'Царь зверей', image: imageUrls[1], category: 'animals' },
-    { id: 5, name: 'Жираф', price: 1400, description: 'Длинная шея', image: imageUrls[5], category: 'animals' },
-    { id: 6, name: 'Слон', price: 2000, description: 'Большой и добрый', image: imageUrls[2], category: 'animals' },
-    
-    // Моделирование -> Наземная техника (3 товара)
-    { id: 7, name: 'Танк Т-34', price: 2500, description: 'Модель танка, масштаб 1:72', image: imageUrls[2], category: 'ground' },
-    { id: 8, name: 'БТР-80', price: 2700, description: 'Бронетранспортёр', image: imageUrls[4], category: 'ground' },
-    { id: 9, name: 'Военный джип', price: 1800, description: 'Вездеход', image: imageUrls[0], category: 'ground' },
-    
-    // Моделирование -> Авиатехника (3 товара)
-    { id: 10, name: 'Истребитель Су-27', price: 3000, description: 'Модель самолёта, масштаб 1:100', image: imageUrls[3], category: 'air' },
-    { id: 11, name: 'Вертолёт Ка-52', price: 3200, description: 'Аллигатор', image: imageUrls[1], category: 'air' },
-    { id: 12, name: 'Бомбардировщик B-2', price: 4000, description: 'Стелс', image: imageUrls[5], category: 'air' },
-    
-    // Бытовые модели -> Для дома (3 товара)
-    { id: 13, name: 'Ваза с узором', price: 800, description: 'Декоративная ваза', image: imageUrls[4], category: 'home' },
-    { id: 14, name: 'Подставка под кружку', price: 300, description: 'Симпатичная подставка', image: imageUrls[2], category: 'home' },
-    { id: 15, name: 'Светильник', price: 1200, description: 'Ночник в виде куба', image: imageUrls[6], category: 'home' },
-    
-    // Бытовые модели -> Для гаража (3 товара)
-    { id: 16, name: 'Держатель для инструментов', price: 600, description: 'Органайзер', image: imageUrls[5], category: 'garage' },
-    { id: 17, name: 'Крючок для шланга', price: 250, description: 'Удобно вешать', image: imageUrls[3], category: 'garage' },
-    { id: 18, name: 'Ящик для мелочей', price: 450, description: 'Сортировка', image: imageUrls[1], category: 'garage' }
-];
+    products.push({
+        id: idCounter++,
+        name: name,
+        price: price,
+        description: description,
+        image: image,
+        category: catId
+    });
+}
 
-// Корзина
+// Корзина и остальной код (без изменений, идёт ниже)
 let cart = [];
-
-// Текущая выбранная подкатегория
 let currentCategory = null;
 
 // DOM элементы
@@ -112,7 +136,6 @@ function buildCategoryTree() {
     });
     categoryTreeEl.innerHTML = html;
 
-    // Обработчики клика
     document.querySelectorAll('.subcategory li').forEach(li => {
         li.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -123,7 +146,6 @@ function buildCategoryTree() {
     });
 }
 
-// Подсветка активной категории
 function setActiveCategory(categoryId) {
     document.querySelectorAll('.subcategory li').forEach(li => {
         li.classList.remove('active');
@@ -135,13 +157,11 @@ function setActiveCategory(categoryId) {
     categoryTitle.textContent = cat ? cat.name : 'Все товары';
 }
 
-// Фильтрация товаров по категории
 function filterProductsByCategory(categoryId) {
     currentCategory = categoryId;
     renderProducts();
 }
 
-// Отображение товаров
 function renderProducts() {
     let filtered = products;
     if (currentCategory) {
@@ -168,7 +188,6 @@ function renderProducts() {
     });
 }
 
-// Добавление в корзину
 window.addToCart = function(productId) {
     const existing = cart.find(item => item.id === productId);
     if (existing) {
@@ -179,7 +198,6 @@ window.addToCart = function(productId) {
     updateCartUI();
 };
 
-// Удаление из корзины
 window.removeFromCart = function(productId) {
     cart = cart.filter(item => item.id !== productId);
     updateCartUI();
@@ -188,13 +206,11 @@ window.removeFromCart = function(productId) {
     }
 };
 
-// Обновление счётчика корзины
 function updateCartUI() {
     const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
     cartCount.textContent = totalItems;
 }
 
-// Отображение корзины в модальном окне
 function renderCartModal() {
     cartItemsList.innerHTML = '';
     let total = 0;
@@ -216,7 +232,6 @@ function renderCartModal() {
     cartTotal.textContent = total;
 }
 
-// Заполнение выпадающего списка категорий
 function populateCategorySelect() {
     let options = '';
     categories.forEach(cat => {
@@ -227,7 +242,6 @@ function populateCategorySelect() {
     newCategory.innerHTML = '<option value="">Выберите подкатегорию</option>' + options;
 }
 
-// Добавление нового товара
 addProductBtn.addEventListener('click', () => {
     const name = newName.value.trim();
     const price = parseFloat(newPrice.value);
@@ -250,13 +264,11 @@ addProductBtn.addEventListener('click', () => {
         category
     };
     products.push(newProduct);
-    // Очистить форму
     newName.value = '';
     newPrice.value = '';
     newImage.value = '';
     newDescription.value = '';
     newCategory.value = '';
-    // Если текущая категория совпадает с добавленной, обновляем отображение
     if (!currentCategory || currentCategory === category) {
         renderProducts();
     } else {
@@ -264,7 +276,6 @@ addProductBtn.addEventListener('click', () => {
     }
 });
 
-// Обработчики модального окна корзины
 cartIcon.addEventListener('click', () => {
     renderCartModal();
     cartModal.style.display = 'block';
@@ -284,7 +295,6 @@ checkoutBtn.addEventListener('click', () => {
     alert('Оформление заказа (демо-режим)');
 });
 
-// Инициализация
 buildCategoryTree();
 populateCategorySelect();
 renderProducts();
