@@ -4,17 +4,47 @@
     box-sizing: border-box;
 }
 
+/* Базовые переменные для светлой темы (по умолчанию) */
+:root {
+    --bg-overlay: rgba(255, 255, 255, 0.7);
+    --sidebar-bg: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #2c3e50;
+    --header-bg: rgba(44, 62, 80, 0.9);
+    --card-bg: #ffffff;
+    --card-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    --hover-bg: #ecf0f1;
+    --price-color: #e67e22;
+    --button-bg: #3498db;
+    --button-hover: #2980b9;
+}
+
+/* Тёмная тема */
+body.theme-dark {
+    --bg-overlay: rgba(0, 0, 0, 0.7);
+    --sidebar-bg: #2d2d2d;
+    --text-primary: #f0f0f0;
+    --text-secondary: #cccccc;
+    --header-bg: rgba(0, 0, 0, 0.9);
+    --card-bg: #3a3a3a;
+    --card-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    --hover-bg: #4a4a4a;
+    --price-color: #ffb347;
+    --button-bg: #555555;
+    --button-hover: #666666;
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
-    /* Фон: пиксельная ночь с луной (холодные тона) */
     background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1950&auto=format') no-repeat center center fixed;
     background-size: cover;
-    color: #333;
+    color: var(--text-primary);
     line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 header {
-    background: rgba(44, 62, 80, 0.9);
+    background: var(--header-bg);
     backdrop-filter: blur(5px);
     color: white;
     padding: 1rem 2rem;
@@ -28,6 +58,21 @@ header h1 {
     font-weight: 600;
     letter-spacing: 1px;
     font-size: 1.3rem;
+}
+
+.theme-toggle {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+    transition: background 0.3s;
+}
+
+.theme-toggle:hover {
+    background: rgba(255,255,255,0.3);
 }
 
 .cart-icon {
@@ -48,23 +93,25 @@ main {
     min-height: calc(100vh - 80px);
     padding: 1.5rem;
     gap: 1.5rem;
-    background: rgba(255,255,255,0.7);
+    background: var(--bg-overlay);
     backdrop-filter: blur(3px);
+    transition: background 0.3s;
 }
 
 .sidebar {
     width: 300px;
-    background: white;
+    background: var(--sidebar-bg);
     padding: 1.5rem;
     border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    box-shadow: var(--card-shadow);
     height: fit-content;
+    transition: background 0.3s, box-shadow 0.3s;
 }
 
 .sidebar h2 {
     margin-bottom: 1rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--text-secondary);
 }
 
 .category-tree {
@@ -80,7 +127,7 @@ main {
 
 .category-tree .category-name {
     font-weight: 600;
-    color: #34495e;
+    color: var(--text-secondary);
     padding: 0.3rem 0;
     display: block;
 }
@@ -105,12 +152,16 @@ main {
 }
 
 .category-tree .subcategory li:hover {
-    background: #ecf0f1;
+    background: var(--hover-bg);
 }
 
 .category-tree .subcategory li.active {
     background: #3498db;
     color: white;
+}
+
+.category-tree .subcategory li.active:hover {
+    background: #2980b9;
 }
 
 .category-tree .subcategory img {
@@ -121,13 +172,13 @@ main {
 }
 
 .add-product-form {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #444;
     padding-top: 1.5rem;
 }
 
 .add-product-form h3 {
     margin-bottom: 1rem;
-    color: #2c3e50;
+    color: var(--text-secondary);
 }
 
 .add-product-form input,
@@ -136,10 +187,12 @@ main {
     width: 100%;
     padding: 0.8rem;
     margin-bottom: 0.8rem;
-    border: 1px solid #ddd;
+    border: 1px solid #555;
     border-radius: 5px;
     font-family: inherit;
     font-size: 0.9rem;
+    background: var(--card-bg);
+    color: var(--text-primary);
 }
 
 .add-product-form textarea {
@@ -169,7 +222,7 @@ main {
 
 .content h2 {
     margin-bottom: 1.5rem;
-    color: #2c3e50;
+    color: var(--text-secondary);
     font-weight: 600;
 }
 
@@ -180,10 +233,10 @@ main {
 }
 
 .product-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: var(--card-shadow);
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
@@ -198,7 +251,7 @@ main {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #444;
 }
 
 .product-card .info {
@@ -209,7 +262,7 @@ main {
 .product-card h3 {
     margin-bottom: 0.5rem;
     font-size: 1.2rem;
-    color: #2c3e50;
+    color: var(--text-secondary);
 }
 
 .product-card .description {
@@ -220,13 +273,13 @@ main {
 
 .product-card .price {
     font-weight: 700;
-    color: #e67e22;
+    color: var(--price-color);
     font-size: 1.3rem;
     margin-bottom: 1rem;
 }
 
 .product-card button {
-    background: #3498db;
+    background: var(--button-bg);
     color: white;
     border: none;
     padding: 0.8rem;
@@ -239,7 +292,7 @@ main {
 }
 
 .product-card button:hover {
-    background: #2980b9;
+    background: var(--button-hover);
 }
 
 .modal {
@@ -255,7 +308,7 @@ main {
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: var(--card-bg);
     margin: 10% auto;
     padding: 2rem;
     border-radius: 15px;
@@ -263,6 +316,7 @@ main {
     max-width: 90%;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     position: relative;
+    color: var(--text-primary);
 }
 
 .close {
@@ -290,7 +344,7 @@ main {
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #444;
 }
 
 #cart-items button {
