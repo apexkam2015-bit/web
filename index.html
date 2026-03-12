@@ -10,12 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="theme-light"> <!-- по умолчанию светлая тема, но скрипт загрузит сохранённую -->
     <header>
-        <!-- Заголовок по вашему заданию -->
         <h1>Камчатский магазин 3Д печати, сделаем любую хуиту</h1>
-        <div class="cart-icon">
-            🛒 <span id="cart-count">0</span>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <button id="theme-toggle" class="theme-toggle">🌙</button> <!-- кнопка переключения темы -->
+            <div class="cart-icon">
+                🛒 <span id="cart-count">0</span>
+            </div>
         </div>
     </header>
 
