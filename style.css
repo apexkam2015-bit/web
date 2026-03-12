@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    /* НОВЫЙ ФОН: пиксельный закат (ваша ссылка) */
+    /* Фон: пиксельная ночь с луной (холодные тона) */
     background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1950&auto=format') no-repeat center center fixed;
     background-size: cover;
     color: #333;
@@ -27,7 +27,7 @@ header {
 header h1 {
     font-weight: 600;
     letter-spacing: 1px;
-    font-size: 1.3rem; /* чтобы длинный текст помещался */
+    font-size: 1.3rem;
 }
 
 .cart-icon {
