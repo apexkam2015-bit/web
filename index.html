@@ -1,381 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <title>Магазин Mini App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        /* Используем переменные темы Telegram, добавляем фон */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            padding: 16px;
-            margin: 0;
-            background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop'); /* Тематический фон магазина */
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            color: var(--tg-theme-text-color, #000000);
-            min-height: 100vh;
-        }
-        /* Полупрозрачный оверлей для читаемости */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.3); /* Затемнение, можно регулировать */
-            backdrop-filter: blur(2px); /* Лёгкое размытие фона */
-            z-index: -1;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-        h1, h2, h3 {
-            color: var(--tg-theme-text-color, #ffffff);
-            margin-top: 0;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-        .user-info {
-            margin: 20px 0;
-            padding: 12px;
-            background-color: var(--tg-theme-secondary-bg-color, rgba(255,255,255,0.9));
-            border-radius: 12px;
-            font-size: 14px;
-            backdrop-filter: blur(5px);
-            border: 1px solid var(--tg-theme-hint-color, rgba(255,255,255,0.2));
-        }
-        .menu-button {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            margin: 8px 0;
-            background-color: var(--tg-theme-button-color, #2e7daf);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 500;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: transform 0.1s, opacity 0.2s;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .menu-button:active {
-            opacity: 0.8;
-            transform: scale(0.98);
-        }
-        .back-button {
-            background-color: var(--tg-theme-secondary-bg-color, rgba(255,255,255,0.8));
-            color: var(--tg-theme-text-color, #000000);
-            margin-bottom: 16px;
-        }
-        .category-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 16px 0 8px;
-            color: var(--tg-theme-hint-color, #dddddd);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-        /* Карточки товаров */
-        .product-card {
-            background-color: var(--tg-theme-secondary-bg-color, rgba(255,255,255,0.9));
-            border-radius: 12px;
-            padding: 12px;
-            margin: 10px 0;
-            display: flex;
-            gap: 12px;
-            backdrop-filter: blur(5px);
-            border: 1px solid var(--tg-theme-hint-color, rgba(255,255,255,0.2));
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .product-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 8px;
-            object-fit: cover;
-            background-color: #f0f0f0;
-        }
-        .product-info {
-            flex: 1;
-        }
-        .product-title {
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 4px;
-            color: var(--tg-theme-text-color, #000000);
-        }
-        .product-description {
-            font-size: 13px;
-            color: var(--tg-theme-hint-color, #555555);
-            margin-bottom: 6px;
-        }
-        .product-price {
-            font-weight: 700;
-            color: var(--tg-theme-button-color, #2e7daf);
-        }
-        .buy-button {
-            background-color: var(--tg-theme-button-color, #2e7daf);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border: none;
-            border-radius: 20px;
-            padding: 6px 16px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            margin-top: 8px;
-            transition: opacity 0.2s;
-        }
-        .buy-button:active {
-            opacity: 0.8;
-        }
-        .footer {
-            margin-top: 24px;
-            font-size: 12px;
-            text-align: center;
-            color: var(--tg-theme-hint-color, #cccccc);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Print Shop</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Подключение шрифта Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div id="app"></div>
+    <header>
+        <h1>Магазин 3D-моделей</h1>
+        <div class="cart-icon">
+            🛒 <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <main>
+        <aside class="sidebar">
+            <h2>Категории</h2>
+            <ul class="category-tree" id="category-tree">
+                <!-- Дерево категорий будет построено через JS -->
+            </ul>
+
+            <div class="add-product-form">
+                <h3>Добавить товар</h3>
+                <input type="text" id="new-name" placeholder="Название" />
+                <input type="number" id="new-price" placeholder="Цена" />
+                <input type="text" id="new-image" placeholder="Ссылка на картинку" />
+                <textarea id="new-description" placeholder="Описание"></textarea>
+                <select id="new-category">
+                    <option value="">Выберите подкатегорию</option>
+                    <!-- будут заполнены скриптом -->
+                </select>
+                <button id="add-product-btn">Добавить товар</button>
+            </div>
+        </aside>
+
+        <section class="content">
+            <h2 id="category-title">Все товары</h2>
+            <div class="products" id="products-container">
+                <!-- Карточки товаров -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно корзины -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Корзина</h2>
+            <ul id="cart-items"></ul>
+            <p>Итого: <span id="cart-total">0</span> руб.</p>
+            <button id="checkout-btn">Оформить заказ</button>
+        </div>
     </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
-
-        const user = tg.initDataUnsafe?.user;
-
-        // Расширенная структура каталога: теперь подразделы содержат массив товаров
-        const catalogData = {
-            "Игрушки": {
-                "Подраздел 1": [
-                    {
-                        id: 1,
-                        title: "Плюшевый мишка",
-                        description: "Мягкая игрушка, 30 см, голубой",
-                        price: 1500,
-                        image: "https://via.placeholder.com/150/FFC0CB/000000?text=Мишка"
-                    },
-                    {
-                        id: 2,
-                        title: "Конструктор LEGO",
-                        description: "Маленький набор, 100 деталей",
-                        price: 2500,
-                        image: "https://via.placeholder.com/150/FFD700/000000?text=LEGO"
-                    }
-                ],
-                "Подраздел 2": [
-                    {
-                        id: 3,
-                        title: "Настольная игра",
-                        description: "Для всей семьи, 2-6 игроков",
-                        price: 3200,
-                        image: "https://via.placeholder.com/150/87CEEB/000000?text=Игра"
-                    }
-                ]
-            },
-            "Моделирование": {
-                "Подраздел 1": [
-                    {
-                        id: 4,
-                        title: "Сборная модель танка",
-                        description: "Масштаб 1:35, 500 деталей",
-                        price: 4500,
-                        image: "https://via.placeholder.com/150/8B4513/FFFFFF?text=Танк"
-                    }
-                ],
-                "Подраздел 2": [
-                    {
-                        id: 5,
-                        title: "Самолёт из дерева",
-                        description: "Набор для сборки, клей в комплекте",
-                        price: 2800,
-                        image: "https://via.placeholder.com/150/4682B4/FFFFFF?text=Самолёт"
-                    }
-                ]
-            },
-            "Бытовые модели": {
-                "Подраздел 1": [
-                    {
-                        id: 6,
-                        title: "Робот-пылесос",
-                        description: "Модель для демонстрации, работает от батареек",
-                        price: 8900,
-                        image: "https://via.placeholder.com/150/808080/FFFFFF?text=Пылесос"
-                    }
-                ],
-                "Подраздел 2": [
-                    {
-                        id: 7,
-                        title: "Умная лампа",
-                        description: "С дистанционным управлением",
-                        price: 3200,
-                        image: "https://via.placeholder.com/150/FFA500/000000?text=Лампа"
-                    },
-                    {
-                        id: 8,
-                        title: "Метеостанция",
-                        description: "Термометр, гигрометр, будильник",
-                        price: 5400,
-                        image: "https://via.placeholder.com/150/ADD8E6/000000?text=Метео"
-                    }
-                ]
-            }
-        };
-
-        let navigationHistory = ['main'];
-
-        const appDiv = document.getElementById('app');
-
-        function render() {
-            const current = navigationHistory[navigationHistory.length - 1];
-            let html = '';
-
-            if (user) {
-                html += `<div class="user-info">👤 ${user.first_name}${user.username ? ' (@' + user.username + ')' : ''}</div>`;
-            }
-
-            if (navigationHistory.length > 1) {
-                html += `<button class="menu-button back-button" id="backBtn">← Назад</button>`;
-            }
-
-            if (current === 'main') {
-                html += renderMainScreen();
-            } else if (current === 'catalog') {
-                html += renderCatalogScreen();
-            } else if (current.startsWith('category_')) {
-                const categoryName = current.substring(9);
-                html += renderCategoryScreen(categoryName);
-            } else if (current.startsWith('subcategory_')) {
-                const parts = current.split('_');
-                const category = parts[1];
-                const subcategory = decodeURIComponent(parts.slice(2).join('_'));
-                html += renderSubcategoryScreen(category, subcategory);
-            }
-
-            appDiv.innerHTML = html;
-
-            // Обработчики
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const category = e.target.dataset.category;
-                    navigationHistory.push('category_' + category);
-                    render();
-                });
-            });
-
-            document.querySelectorAll('.subcategory-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const category = e.target.dataset.category;
-                    const subcategory = e.target.dataset.subcategory;
-                    navigationHistory.push('subcategory_' + category + '_' + encodeURIComponent(subcategory));
-                    render();
-                });
-            });
-
-            document.querySelectorAll('.buy-button').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const productId = e.target.dataset.productId;
-                    const productTitle = e.target.dataset.productTitle;
-                    const productPrice = e.target.dataset.productPrice;
-                    // Отправляем данные боту
-                    tg.sendData(JSON.stringify({
-                        action: 'buy',
-                        productId: productId,
-                        title: productTitle,
-                        price: productPrice,
-                        userId: user?.id
-                    }));
-                });
-            });
-
-            const backBtn = document.getElementById('backBtn');
-            if (backBtn) {
-                backBtn.addEventListener('click', () => {
-                    navigationHistory.pop();
-                    render();
-                });
-            }
-
-            const catalogBtn = document.getElementById('catalogBtn');
-            if (catalogBtn) {
-                catalogBtn.addEventListener('click', () => {
-                    navigationHistory.push('catalog');
-                    render();
-                });
-            }
-        }
-
-        function renderMainScreen() {
-            return `
-                <h1>Добро пожаловать в магазин!</h1>
-                <p style="color: var(--tg-theme-text-color, #fff);">Здесь вы можете найти различные товары.</p>
-                <button class="menu-button" id="catalogBtn">📋 Открыть каталог</button>
-                <div class="footer">Нажмите кнопку, чтобы перейти к разделам</div>
-            `;
-        }
-
-        function renderCatalogScreen() {
-            let html = '<h2>Каталог</h2><div class="category-grid">';
-            for (let category in catalogData) {
-                html += `<button class="menu-button category-btn" data-category="${category}">${category}</button>`;
-            }
-            html += '</div>';
-            return html;
-        }
-
-        function renderCategoryScreen(category) {
-            if (!catalogData[category]) return '<p>Раздел не найден</p>';
-            const subcategories = Object.keys(catalogData[category]);
-            let html = `<h2>${category}</h2><div class="category-grid">`;
-            subcategories.forEach(sub => {
-                html += `<button class="menu-button subcategory-btn" data-category="${category}" data-subcategory="${sub}">${sub}</button>`;
-            });
-            html += '</div>';
-            return html;
-        }
-
-        function renderSubcategoryScreen(category, subcategory) {
-            if (!catalogData[category] || !catalogData[category][subcategory]) {
-                return '<p>Товары не найдены</p>';
-            }
-            const products = catalogData[category][subcategory];
-            let html = `<h2>${category} / ${subcategory}</h2>`;
-
-            products.forEach(product => {
-                html += `
-                    <div class="product-card">
-                        <img src="${product.image}" alt="${product.title}" class="product-image" onerror="this.src='https://via.placeholder.com/150'">
-                        <div class="product-info">
-                            <div class="product-title">${product.title}</div>
-                            <div class="product-description">${product.description}</div>
-                            <div class="product-price">${product.price} ₽</div>
-                            <button class="buy-button" data-product-id="${product.id}" data-product-title="${product.title}" data-product-price="${product.price}">Купить</button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            return html;
-        }
-
-        render();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
