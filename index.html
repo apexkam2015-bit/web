@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Print Shop</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Подключение шрифта для красоты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Магазин 3D-моделей</h1>
+        <div class="cart-icon">
+            🛒 <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <main>
+        <aside class="sidebar">
+            <h2>Категории</h2>
+            <ul class="category-tree" id="category-tree">
+                <!-- Дерево категорий будет построено через JS -->
+            </ul>
+
+            <div class="add-product-form">
+                <h3>Добавить товар</h3>
+                <input type="text" id="new-name" placeholder="Название" />
+                <input type="number" id="new-price" placeholder="Цена" />
+                <input type="text" id="new-image" placeholder="Ссылка на картинку" />
+                <textarea id="new-description" placeholder="Описание"></textarea>
+                <select id="new-category">
+                    <option value="">Выберите подкатегорию</option>
+                    <!-- будут заполнены скриптом -->
+                </select>
+                <button id="add-product-btn">Добавить товар</button>
+            </div>
+        </aside>
+
+        <section class="content">
+            <h2 id="category-title">Все товары</h2>
+            <div class="products" id="products-container">
+                <!-- Карточки товаров -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно корзины -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Корзина</h2>
+            <ul id="cart-items"></ul>
+            <p>Итого: <span id="cart-total">0</span> руб.</p>
+            <button id="checkout-btn">Оформить заказ</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
