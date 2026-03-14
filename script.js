@@ -1,6 +1,6 @@
 // ========== НАСТРОЙКИ TELEGRAM (ЗАМЕНИТЕ НА СВОИ) ==========
-const TELEGRAM_BOT_TOKEN = 'ВАШ_ТОКЕН_БОТА';      // замените на реальный токен
-const TELEGRAM_CHAT_ID = 'ВАШ_CHAT_ID';           // замените на ваш chat_id
+const TELEGRAM_BOT_TOKEN = '8798119858:AAF_07GNJPz0lep_Vplkv930jVtlASZ2byU';      // замените на реальный токен
+const TELEGRAM_CHAT_ID = '331361131';           // замените на ваш chat_id
 
 // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ==========
 const themeToggle = document.getElementById('theme-toggle');
@@ -393,7 +393,7 @@ window.addEventListener('click', (event) => {
 });
 
 contactBtn.addEventListener('click', () => {
-    window.open('https://t.me/ваш_канал', '_blank'); // замените на ваш канал
+    window.open('https://t.me/kam3Dprint', '_blank'); // замените на ваш канал
 });
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
