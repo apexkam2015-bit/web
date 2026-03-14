@@ -162,6 +162,15 @@ const missingModal = document.getElementById('missing-modal');
 const closeInfo = document.querySelector('.close-info');
 const closeMissing = document.querySelector('.close-missing');
 
+// Элементы для модального окна товара
+const productModal = document.getElementById('product-modal');
+const closeProduct = document.querySelector('.close-product');
+const detailImage = document.getElementById('detail-image');
+const detailTitle = document.getElementById('detail-title');
+const detailDescription = document.getElementById('detail-description');
+const detailPrice = document.getElementById('detail-price');
+const detailAddToCart = document.getElementById('detail-add-to-cart');
+
 // ========== ФУНКЦИИ ==========
 
 // Построение дерева категорий
@@ -240,6 +249,7 @@ function renderProducts() {
     filtered.forEach(product => {
         const card = document.createElement('div');
         card.className = 'product-card';
+        card.dataset.id = product.id;
         card.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
             <div class="info">
@@ -251,6 +261,33 @@ function renderProducts() {
         `;
         productsContainer.appendChild(card);
     });
+
+    // Добавляем обработчик клика по карточке для открытия детального просмотра
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            // Если клик по кнопке "В корзину" - не открываем модалку
+            if (e.target.tagName === 'BUTTON') return;
+            const productId = parseInt(card.dataset.id);
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                showProductDetail(product);
+            }
+        });
+    });
+}
+
+// Показать детальную информацию о товаре
+function showProductDetail(product) {
+    detailImage.src = product.image;
+    detailImage.alt = product.name;
+    detailTitle.textContent = product.name;
+    detailDescription.textContent = product.description;
+    detailPrice.textContent = product.price + ' руб.';
+    detailAddToCart.onclick = () => {
+        addToCart(product.id);
+        productModal.style.display = 'none';
+    };
+    productModal.style.display = 'block';
 }
 
 searchInput.addEventListener('input', (e) => {
@@ -366,7 +403,7 @@ window.addEventListener('click', (event) => {
 checkoutBtn.addEventListener('click', sendOrderToTelegram);
 sendOrderBtn.addEventListener('click', sendOrderToTelegram);
 
-// ========== НОВЫЕ МОДАЛЬНЫЕ ОКНА ==========
+// ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ИНФОРМАЦИИ ==========
 productInfoBtn.addEventListener('click', () => {
     infoModal.style.display = 'block';
 });
@@ -392,8 +429,20 @@ window.addEventListener('click', (event) => {
     }
 });
 
+// ========== МОДАЛЬНОЕ ОКНО ТОВАРА ==========
+closeProduct.addEventListener('click', () => {
+    productModal.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target === productModal) {
+        productModal.style.display = 'none';
+    }
+});
+
+// ========== КОНТАКТЫ ==========
 contactBtn.addEventListener('click', () => {
-    window.open('https://t.me/kam3Dprint', '_blank'); // замените на ваш канал
+    window.open('https://t.me/ваш_канал', '_blank'); // замените на ваш канал
 });
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
