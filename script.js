@@ -1,4 +1,8 @@
-// ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (НОВЫЙ КОД) ==========
+// ========== НАСТРОЙКИ TELEGRAM ==========
+const TELEGRAM_BOT_TOKEN = 'ВАШ_ТОКЕН_БОТА';      // замените на реальный токен
+const TELEGRAM_CHAT_ID = 'ВАШ_CHAT_ID';           // замените на ваш chat_id
+
+// ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ==========
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
 
@@ -18,9 +22,8 @@ themeToggle.addEventListener('click', () => {
     setTheme(newTheme);
 });
 
-// ========== ВСЕ ВАШИ ССЫЛКИ НА КАРТИНКИ (23 ШТУКИ) ==========
+// ========== ВСЕ ССЫЛКИ НА КАРТИНКИ ==========
 const imageUrls = [
-    // Старые (7)
     'https://i.ibb.co/ynJxgrcG/image.jpg',
     'https://i.ibb.co/f7zqG5S/image.jpg',
     'https://i.ibb.co/0ypFrJr8/image.jpg',
@@ -28,7 +31,6 @@ const imageUrls = [
     'https://i.ibb.co/sv9HCQPX/image.jpg',
     'https://i.ibb.co/TDfxFJFh/image.jpg',
     'https://i.ibb.co/MDhcngwJ/image.webp',
-    // Новые (16)
     'https://i.ibb.co/svR65LG2/images-1.jpg',
     'https://i.ibb.co/6S09nyv/1.png',
     'https://i.ibb.co/q3kcJvzm/HR-Model2-CF-8.jpg',
@@ -46,7 +48,7 @@ const imageUrls = [
     'https://i.ibb.co/pvYqfJKm/benchy.webp'
 ];
 
-// ========== СТРУКТУРА КАТЕГОРИЙ ==========
+// ========== КАТЕГОРИИ ==========
 const categories = [
     {
         id: 'toys',
@@ -60,21 +62,21 @@ const categories = [
         id: 'modeling',
         name: 'Моделирование',
         subcategories: [
-            { id: 'ground', name: 'Наземная техника', image: 'https://i.ibb.co/f7zqG5S/image.jpg' },
-            { id: 'air', name: 'Авиатехника', image: 'https://i.ibb.co/f7zqG5S/image.jpg' }
+            { id: 'ground', name: 'Наземная техника', image: 'https://i.ibb.co/0ypFrJr8/image.jpg' },
+            { id: 'air', name: 'Авиатехника', image: 'https://i.ibb.co/5XpBv6PC/image.jpg' }
         ]
     },
     {
         id: 'household',
         name: 'Бытовые модели',
         subcategories: [
-            { id: 'home', name: 'Для дома', image: 'https://i.ibb.co/f7zqG5S/image.jpg' },
-            { id: 'garage', name: 'Для гаража', image: 'https://i.ibb.co/f7zqG5S/image.jpg' }
+            { id: 'home', name: 'Для дома', image: 'https://i.ibb.co/sv9HCQPX/image.jpg' },
+            { id: 'garage', name: 'Для гаража', image: 'https://i.ibb.co/TDfxFJFh/image.jpg' }
         ]
     }
 ];
 
-// ========== ГЕНЕРАЦИЯ 250 ТОВАРОВ ==========
+// ========== ГЕНЕРАЦИЯ 250 ТОВАРОВ С ТЕГАМИ ==========
 let products = [];
 const subcategoryIds = ['cartoon', 'animals', 'ground', 'air', 'home', 'garage'];
 const names = {
@@ -96,6 +98,16 @@ const descriptions = [
     'Яркий цвет, не выгорает'
 ];
 
+// Словарь тегов для каждой категории (можно расширить)
+const tagsMap = {
+    cartoon: ['мультики', 'игрушки', 'чебурашка', 'микки маус', 'губка боб', 'шрек', 'пикачу', 'симпсоны'],
+    animals: ['животные', 'лев', 'жираф', 'слон', 'тигр', 'зоопарк'],
+    ground: ['техника', 'танк', 'бтр', 'джип', 'бульдозер', 'экскаватор', 'трактор', 'военная'],
+    air: ['авиация', 'самолёт', 'вертолёт', 'истребитель', 'бомбардировщик', 'квадрокоптер'],
+    home: ['дом', 'интерьер', 'ваза', 'подставка', 'светильник', 'мыльница', 'крючок'],
+    garage: ['гараж', 'инструменты', 'органайзер', 'держатель', 'ящик', 'ключи']
+};
+
 let idCounter = 1;
 for (let i = 0; i < 250; i++) {
     const catIndex = i % subcategoryIds.length;
@@ -106,19 +118,31 @@ for (let i = 0; i < 250; i++) {
     const description = descriptions[Math.floor(Math.random() * descriptions.length)];
     const image = imageUrls[Math.floor(Math.random() * imageUrls.length)];
 
+    // Генерируем теги: общие для категории + специфичные из названия
+    let tags = [...(tagsMap[catId] || [])];
+    // Добавляем слова из названия как теги
+    const nameWords = name.toLowerCase().split(' ');
+    nameWords.forEach(word => {
+        if (word.length > 2 && !tags.includes(word)) {
+            tags.push(word);
+        }
+    });
+
     products.push({
         id: idCounter++,
         name: name,
         price: price,
         description: description,
         image: image,
-        category: catId
+        category: catId,
+        tags: tags
     });
 }
 
 // ========== КОРЗИНА ==========
 let cart = [];
 let currentCategory = null;
+let searchQuery = ''; // для поиска
 
 // ========== DOM ЭЛЕМЕНТЫ ==========
 const categoryTreeEl = document.getElementById('category-tree');
@@ -131,12 +155,12 @@ const cartTotal = document.getElementById('cart-total');
 const closeModal = document.querySelector('.close');
 const cartIcon = document.querySelector('.cart-icon');
 const checkoutBtn = document.getElementById('checkout-btn');
-const newName = document.getElementById('new-name');
-const newPrice = document.getElementById('new-price');
-const newImage = document.getElementById('new-image');
-const newDescription = document.getElementById('new-description');
-const newCategory = document.getElementById('new-category');
-const addProductBtn = document.getElementById('add-product-btn');
+const sendOrderBtn = document.getElementById('send-order-btn');
+const searchInput = document.getElementById('search-input');
+const contactBtn = document.getElementById('contact-btn');
+const missingModelBtn = document.getElementById('missing-model-btn');
+const productInfoBtn = document.getElementById('product-info-btn');
+const productInfoBlock = document.getElementById('product-info-block');
 
 // ========== ФУНКЦИИ ==========
 
@@ -164,11 +188,12 @@ function buildCategoryTree() {
             const categoryId = li.dataset.category;
             setActiveCategory(categoryId);
             filterProductsByCategory(categoryId);
+            searchInput.value = ''; // сброс поиска при выборе категории
+            searchQuery = '';
         });
     });
 }
 
-// Подсветка активной категории
 function setActiveCategory(categoryId) {
     document.querySelectorAll('.subcategory li').forEach(li => {
         li.classList.remove('active');
@@ -180,21 +205,40 @@ function setActiveCategory(categoryId) {
     categoryTitle.textContent = cat ? cat.name : 'Все товары';
 }
 
-// Фильтрация товаров по категории
 function filterProductsByCategory(categoryId) {
     currentCategory = categoryId;
     renderProducts();
 }
 
-// Отображение товаров
+// Поиск по названию и тегам
+function searchProducts(query) {
+    if (!query.trim()) return products; // пустой запрос = все товары
+    const lowerQuery = query.toLowerCase().trim();
+    return products.filter(product => {
+        // Поиск в названии
+        if (product.name.toLowerCase().includes(lowerQuery)) return true;
+        // Поиск в тегах
+        if (product.tags.some(tag => tag.toLowerCase().includes(lowerQuery))) return true;
+        return false;
+    });
+}
+
+// Отображение товаров (с учётом категории и поиска)
 function renderProducts() {
     let filtered = products;
     if (currentCategory) {
-        filtered = products.filter(p => p.category === currentCategory);
+        filtered = filtered.filter(p => p.category === currentCategory);
     }
+    if (searchQuery) {
+        filtered = filtered.filter(p => 
+            p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            p.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+        );
+    }
+
     productsContainer.innerHTML = '';
     if (filtered.length === 0) {
-        productsContainer.innerHTML = '<p>Нет товаров в этой категории</p>';
+        productsContainer.innerHTML = '<p>Нет товаров по вашему запросу</p>';
         return;
     }
     filtered.forEach(product => {
@@ -212,6 +256,13 @@ function renderProducts() {
         productsContainer.appendChild(card);
     });
 }
+
+// Обработчик поиска
+searchInput.addEventListener('input', (e) => {
+    searchQuery = e.target.value;
+    // Если есть активная категория, поиск идёт внутри неё (логика уже в renderProducts)
+    renderProducts();
+});
 
 // Добавление в корзину
 window.addToCart = function(productId) {
@@ -261,53 +312,56 @@ function renderCartModal() {
     cartTotal.textContent = total;
 }
 
-// Заполнение выпадающего списка категорий
-function populateCategorySelect() {
-    let options = '';
-    categories.forEach(cat => {
-        cat.subcategories.forEach(sub => {
-            options += `<option value="${sub.id}">${cat.name} → ${sub.name}</option>`;
-        });
-    });
-    newCategory.innerHTML = '<option value="">Выберите подкатегорию</option>' + options;
-}
-
-// Добавление нового товара
-addProductBtn.addEventListener('click', () => {
-    const name = newName.value.trim();
-    const price = parseFloat(newPrice.value);
-    const image = newImage.value.trim();
-    const description = newDescription.value.trim();
-    const category = newCategory.value;
-
-    if (!name || !price || !image || !description || !category) {
-        alert('Заполните все поля!');
+// Отправка заказа в Telegram
+async function sendOrderToTelegram() {
+    if (cart.length === 0) {
+        alert('Корзина пуста');
         return;
     }
 
-    const newId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
-    const newProduct = {
-        id: newId,
-        name,
-        price,
-        description,
-        image,
-        category
-    };
-    products.push(newProduct);
-    newName.value = '';
-    newPrice.value = '';
-    newImage.value = '';
-    newDescription.value = '';
-    newCategory.value = '';
-    if (!currentCategory || currentCategory === category) {
-        renderProducts();
-    } else {
-        alert('Товар добавлен в категорию ' + category);
-    }
-});
+    // Формируем сообщение
+    let message = '🛒 *Новый заказ с сайта*\n\n';
+    let total = 0;
+    cart.forEach(item => {
+        const product = products.find(p => p.id === item.id);
+        if (product) {
+            message += `• ${product.name} x${item.quantity} = ${product.price * item.quantity} руб.\n`;
+            total += product.price * item.quantity;
+        }
+    });
+    message += `\n*Итого: ${total} руб.*`;
 
-// Обработчики модального окна корзины
+    // Отправка через Telegram Bot API
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    const payload = {
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: 'Markdown'
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        if (data.ok) {
+            alert('Заказ успешно отправлен в Telegram!');
+            // Очистить корзину
+            cart = [];
+            updateCartUI();
+            cartModal.style.display = 'none';
+        } else {
+            alert('Ошибка отправки: ' + data.description);
+        }
+    } catch (error) {
+        alert('Ошибка соединения с Telegram');
+        console.error(error);
+    }
+}
+
+// Обработчики модального окна
 cartIcon.addEventListener('click', () => {
     renderCartModal();
     cartModal.style.display = 'block';
@@ -323,11 +377,28 @@ window.addEventListener('click', (event) => {
     }
 });
 
-checkoutBtn.addEventListener('click', () => {
-    alert('Оформление заказа (демо-режим)');
+// Кнопка "Оформить заказ" (просто альтернатива отправке)
+checkoutBtn.addEventListener('click', sendOrderToTelegram);
+sendOrderBtn.addEventListener('click', sendOrderToTelegram);
+
+// ========== КОНТАКТНЫЕ КНОПКИ ==========
+contactBtn.addEventListener('click', () => {
+    window.open('https://t.me/ваш_канал', '_blank'); // замените на ссылку вашего Telegram-канала
+});
+
+missingModelBtn.addEventListener('click', () => {
+    const text = 'Больше моделей на сайте https://makerworld.com/ru просто сбросьте нам ссылку на понравившуюся Вам модель нам в телеграмм.';
+    const telegramLink = 'https://t.me/ваш_аккаунт'; // замените на ссылку вашего Telegram-аккаунта
+    // Показываем сообщение и предлагаем перейти
+    if (confirm(`${text}\n\nПерейти в Telegram?`)) {
+        window.open(telegramLink, '_blank');
+    }
+});
+
+productInfoBtn.addEventListener('click', () => {
+    productInfoBlock.classList.toggle('hidden');
 });
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 buildCategoryTree();
-populateCategorySelect();
 renderProducts();
