@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-/* Базовые переменные для светлой темы (по умолчанию) */
+/* Базовые переменные для светлой темы */
 :root {
     --bg-overlay: rgba(255, 255, 255, 0.7);
     --sidebar-bg: #ffffff;
@@ -17,6 +17,8 @@
     --price-color: #e67e22;
     --button-bg: #3498db;
     --button-hover: #2980b9;
+    --info-panel-bg: rgba(255, 255, 255, 0.8);
+    --info-btn-bg: #34495e;
 }
 
 /* Тёмная тема */
@@ -32,6 +34,8 @@ body.theme-dark {
     --price-color: #ffb347;
     --button-bg: #555555;
     --button-hover: #666666;
+    --info-panel-bg: rgba(45, 45, 45, 0.8);
+    --info-btn-bg: #555;
 }
 
 body {
@@ -88,10 +92,39 @@ header h1 {
     background: rgba(255,255,255,0.3);
 }
 
+/* Информационная панель под шапкой */
+.info-panel {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    background: var(--info-panel-bg);
+    backdrop-filter: blur(5px);
+    margin: 0 1.5rem 1rem 1.5rem;
+    border-radius: 50px;
+    flex-wrap: wrap;
+}
+
+.info-btn {
+    background: var(--info-btn-bg);
+    border: none;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+    font-weight: 500;
+}
+
+.info-btn:hover {
+    background: #2c3e50;
+}
+
 main {
     display: flex;
-    min-height: calc(100vh - 80px);
-    padding: 1.5rem;
+    min-height: calc(100vh - 140px);
+    padding: 0 1.5rem 1.5rem 1.5rem;
     gap: 1.5rem;
     background: var(--bg-overlay);
     backdrop-filter: blur(3px);
@@ -106,6 +139,7 @@ main {
     box-shadow: var(--card-shadow);
     height: fit-content;
     transition: background 0.3s, box-shadow 0.3s;
+    position: relative;
 }
 
 .sidebar h2 {
@@ -116,7 +150,7 @@ main {
 
 .category-tree {
     list-style: none;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .category-tree li {
@@ -171,53 +205,55 @@ main {
     object-fit: cover;
 }
 
-.add-product-form {
-    border-top: 1px solid #444;
-    padding-top: 1.5rem;
+/* Блок информации о продукции (скрыт по умолчанию) */
+.product-info {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    font-size: 0.9rem;
+    border-left: 4px solid #3498db;
 }
 
-.add-product-form h3 {
-    margin-bottom: 1rem;
+.product-info h3 {
+    margin-bottom: 0.5rem;
     color: var(--text-secondary);
 }
 
-.add-product-form input,
-.add-product-form textarea,
-.add-product-form select {
-    width: 100%;
-    padding: 0.8rem;
-    margin-bottom: 0.8rem;
-    border: 1px solid #555;
-    border-radius: 5px;
-    font-family: inherit;
-    font-size: 0.9rem;
-    background: var(--card-bg);
+.product-info p {
     color: var(--text-primary);
+    line-height: 1.5;
 }
 
-.add-product-form textarea {
-    resize: vertical;
-    min-height: 60px;
-}
-
-.add-product-form button {
-    background: #27ae60;
-    color: white;
-    border: none;
-    padding: 0.8rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    width: 100%;
-    transition: background 0.3s;
-}
-
-.add-product-form button:hover {
-    background: #2ecc71;
+.product-info.hidden {
+    display: none;
 }
 
 .content {
     flex: 1;
+}
+
+.search-bar {
+    margin-bottom: 1rem;
+}
+
+#search-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: none;
+    border-radius: 30px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid transparent;
+    transition: border 0.3s;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: #3498db;
 }
 
 .content h2 {
@@ -312,7 +348,7 @@ main {
     margin: 10% auto;
     padding: 2rem;
     border-radius: 15px;
-    width: 400px;
+    width: 450px;
     max-width: 90%;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     position: relative;
@@ -360,6 +396,12 @@ main {
     background: #c0392b;
 }
 
+.cart-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
 #checkout-btn {
     background: #27ae60;
     color: white;
@@ -367,9 +409,23 @@ main {
     padding: 0.8rem;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%;
     font-size: 1rem;
-    margin-top: 1rem;
+    flex: 1;
+}
+
+.send-btn {
+    background: #0088cc;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    flex: 1;
+}
+
+.send-btn:hover {
+    background: #0077b5;
 }
 
 @media (max-width: 768px) {
@@ -378,5 +434,10 @@ main {
     }
     .sidebar {
         width: 100%;
+    }
+    .info-panel {
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 15px;
     }
 }
