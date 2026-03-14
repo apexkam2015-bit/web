@@ -152,7 +152,6 @@ const cartTotal = document.getElementById('cart-total');
 const closeModal = document.querySelector('.close');
 const cartIcon = document.querySelector('.cart-icon');
 const checkoutBtn = document.getElementById('checkout-btn');
-const sendOrderBtn = document.getElementById('send-order-btn');
 const searchInput = document.getElementById('search-input');
 const contactBtn = document.getElementById('contact-btn');
 const missingModelBtn = document.getElementById('missing-model-btn');
@@ -161,6 +160,10 @@ const infoModal = document.getElementById('info-modal');
 const missingModal = document.getElementById('missing-modal');
 const closeInfo = document.querySelector('.close-info');
 const closeMissing = document.querySelector('.close-missing');
+
+// Поля для данных клиента
+const customerName = document.getElementById('customer-name');
+const customerPhone = document.getElementById('customer-phone');
 
 // Элементы для модального окна товара
 const productModal = document.getElementById('product-modal');
@@ -265,7 +268,6 @@ function renderProducts() {
     // Добавляем обработчик клика по карточке для открытия детального просмотра
     document.querySelectorAll('.product-card').forEach(card => {
         card.addEventListener('click', (e) => {
-            // Если клик по кнопке "В корзину" - не открываем модалку
             if (e.target.tagName === 'BUTTON') return;
             const productId = parseInt(card.dataset.id);
             const product = products.find(p => p.id === productId);
@@ -339,13 +341,26 @@ function renderCartModal() {
     cartTotal.textContent = total;
 }
 
+// Отправка заказа в Telegram с проверкой имени и телефона
 async function sendOrderToTelegram() {
     if (cart.length === 0) {
         alert('Корзина пуста');
         return;
     }
 
+    const name = customerName.value.trim();
+    const phone = customerPhone.value.trim();
+
+    if (!name || !phone) {
+        alert('Пожалуйста, введите имя и контактный телефон');
+        return;
+    }
+
     let message = '🛒 *Новый заказ с сайта*\n\n';
+    message += `👤 *Имя:* ${name}\n`;
+    message += `📞 *Телефон:* ${phone}\n\n`;
+    message += '*Состав заказа:*\n';
+    
     let total = 0;
     cart.forEach(item => {
         const product = products.find(p => p.id === item.id);
@@ -373,6 +388,8 @@ async function sendOrderToTelegram() {
         if (data.ok) {
             alert('Заказ успешно отправлен в Telegram!');
             cart = [];
+            customerName.value = '';
+            customerPhone.value = '';
             updateCartUI();
             cartModal.style.display = 'none';
         } else {
@@ -401,7 +418,6 @@ window.addEventListener('click', (event) => {
 });
 
 checkoutBtn.addEventListener('click', sendOrderToTelegram);
-sendOrderBtn.addEventListener('click', sendOrderToTelegram);
 
 // ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ИНФОРМАЦИИ ==========
 productInfoBtn.addEventListener('click', () => {
