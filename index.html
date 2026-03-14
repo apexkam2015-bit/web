@@ -59,23 +59,39 @@
         </div>
     </div>
 
-    <!-- Модальное окно информации о продукции -->
+    <!-- Модальное окно информации о продукции (увеличенное) -->
     <div id="info-modal" class="modal">
-        <div class="modal-content modal-large">
+        <div class="modal-content modal-extra-large">
             <span class="close-info">&times;</span>
             <h2>Информация о продукции</h2>
             <p>Модели изготавливаются из PLA (полилактид) пластика — это самый популярный, экологичный и простой в печати пластик для FDM 3D-принтеров. Изготавливается из возобновляемого сырья (кукуруза, тростник), биоразлагаем, нетоксичен и почти не имеет запаха. Отличается высокой жесткостью, низкой усадкой, отличной детализацией и яркими цветами, но хрупок и не переносит высоких температур (размягчается от 60°C).</p>
         </div>
     </div>
 
-    <!-- Модальное окно "Нет интересующей модели" -->
+    <!-- Модальное окно "Нет интересующей модели" (увеличенное) -->
     <div id="missing-modal" class="modal">
-        <div class="modal-content modal-large">
+        <div class="modal-content modal-extra-large">
             <span class="close-missing">&times;</span>
             <h2>Нет интересующей модели?</h2>
             <p>Больше моделей на сайте <a href="https://makerworld.com/ru" target="_blank">makerworld.com</a>. Просто сбросьте нам ссылку на понравившуюся Вам модель в Telegram.</p>
             <p>Наш Telegram: <a href="https://t.me/ваш_аккаунт" target="_blank">@ваш_аккаунт</a></p>
             <p><button onclick="window.open('https://t.me/ваш_аккаунт', '_blank')" class="send-btn" style="width: auto; padding: 0.5rem 1rem;">Перейти в Telegram</button></p>
+        </div>
+    </div>
+
+    <!-- Модальное окно детального просмотра товара -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content modal-extra-large">
+            <span class="close-product">&times;</span>
+            <div class="product-detail">
+                <img id="detail-image" src="" alt="">
+                <div class="detail-info">
+                    <h2 id="detail-title"></h2>
+                    <p id="detail-description"></p>
+                    <p class="detail-price" id="detail-price"></p>
+                    <button id="detail-add-to-cart" class="add-to-cart-btn">В корзину</button>
+                </div>
+            </div>
         </div>
     </div>
 
