@@ -1,6 +1,6 @@
-// ========== НАСТРОЙКИ TELEGRAM ==========
-const TELEGRAM_BOT_TOKEN = '8798119858:AAF_07GNJPz0lep_Vplkv930jVtlASZ2byU';      // замените на реальный токен
-const TELEGRAM_CHAT_ID = '331361131';           // замените на ваш chat_id
+// ========== НАСТРОЙКИ TELEGRAM (ЗАМЕНИТЕ НА СВОИ) ==========
+const TELEGRAM_BOT_TOKEN = 'ВАШ_ТОКЕН_БОТА';      // замените на реальный токен
+const TELEGRAM_CHAT_ID = 'ВАШ_CHAT_ID';           // замените на ваш chat_id
 
 // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ==========
 const themeToggle = document.getElementById('theme-toggle');
@@ -98,7 +98,6 @@ const descriptions = [
     'Яркий цвет, не выгорает'
 ];
 
-// Словарь тегов для каждой категории (можно расширить)
 const tagsMap = {
     cartoon: ['мультики', 'игрушки', 'чебурашка', 'микки маус', 'губка боб', 'шрек', 'пикачу', 'симпсоны'],
     animals: ['животные', 'лев', 'жираф', 'слон', 'тигр', 'зоопарк'],
@@ -118,9 +117,7 @@ for (let i = 0; i < 250; i++) {
     const description = descriptions[Math.floor(Math.random() * descriptions.length)];
     const image = imageUrls[Math.floor(Math.random() * imageUrls.length)];
 
-    // Генерируем теги: общие для категории + специфичные из названия
     let tags = [...(tagsMap[catId] || [])];
-    // Добавляем слова из названия как теги
     const nameWords = name.toLowerCase().split(' ');
     nameWords.forEach(word => {
         if (word.length > 2 && !tags.includes(word)) {
@@ -142,7 +139,7 @@ for (let i = 0; i < 250; i++) {
 // ========== КОРЗИНА ==========
 let cart = [];
 let currentCategory = null;
-let searchQuery = ''; // для поиска
+let searchQuery = '';
 
 // ========== DOM ЭЛЕМЕНТЫ ==========
 const categoryTreeEl = document.getElementById('category-tree');
@@ -160,7 +157,10 @@ const searchInput = document.getElementById('search-input');
 const contactBtn = document.getElementById('contact-btn');
 const missingModelBtn = document.getElementById('missing-model-btn');
 const productInfoBtn = document.getElementById('product-info-btn');
-const productInfoBlock = document.getElementById('product-info-block');
+const infoModal = document.getElementById('info-modal');
+const missingModal = document.getElementById('missing-modal');
+const closeInfo = document.querySelector('.close-info');
+const closeMissing = document.querySelector('.close-missing');
 
 // ========== ФУНКЦИИ ==========
 
@@ -188,7 +188,7 @@ function buildCategoryTree() {
             const categoryId = li.dataset.category;
             setActiveCategory(categoryId);
             filterProductsByCategory(categoryId);
-            searchInput.value = ''; // сброс поиска при выборе категории
+            searchInput.value = '';
             searchQuery = '';
         });
     });
@@ -210,20 +210,16 @@ function filterProductsByCategory(categoryId) {
     renderProducts();
 }
 
-// Поиск по названию и тегам
 function searchProducts(query) {
-    if (!query.trim()) return products; // пустой запрос = все товары
+    if (!query.trim()) return products;
     const lowerQuery = query.toLowerCase().trim();
     return products.filter(product => {
-        // Поиск в названии
         if (product.name.toLowerCase().includes(lowerQuery)) return true;
-        // Поиск в тегах
         if (product.tags.some(tag => tag.toLowerCase().includes(lowerQuery))) return true;
         return false;
     });
 }
 
-// Отображение товаров (с учётом категории и поиска)
 function renderProducts() {
     let filtered = products;
     if (currentCategory) {
@@ -257,14 +253,11 @@ function renderProducts() {
     });
 }
 
-// Обработчик поиска
 searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value;
-    // Если есть активная категория, поиск идёт внутри неё (логика уже в renderProducts)
     renderProducts();
 });
 
-// Добавление в корзину
 window.addToCart = function(productId) {
     const existing = cart.find(item => item.id === productId);
     if (existing) {
@@ -275,7 +268,6 @@ window.addToCart = function(productId) {
     updateCartUI();
 };
 
-// Удаление из корзины
 window.removeFromCart = function(productId) {
     cart = cart.filter(item => item.id !== productId);
     updateCartUI();
@@ -284,13 +276,11 @@ window.removeFromCart = function(productId) {
     }
 };
 
-// Обновление счётчика корзины
 function updateCartUI() {
     const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
     cartCount.textContent = totalItems;
 }
 
-// Отображение корзины в модальном окне
 function renderCartModal() {
     cartItemsList.innerHTML = '';
     let total = 0;
@@ -312,14 +302,12 @@ function renderCartModal() {
     cartTotal.textContent = total;
 }
 
-// Отправка заказа в Telegram
 async function sendOrderToTelegram() {
     if (cart.length === 0) {
         alert('Корзина пуста');
         return;
     }
 
-    // Формируем сообщение
     let message = '🛒 *Новый заказ с сайта*\n\n';
     let total = 0;
     cart.forEach(item => {
@@ -331,7 +319,6 @@ async function sendOrderToTelegram() {
     });
     message += `\n*Итого: ${total} руб.*`;
 
-    // Отправка через Telegram Bot API
     const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
     const payload = {
         chat_id: TELEGRAM_CHAT_ID,
@@ -348,7 +335,6 @@ async function sendOrderToTelegram() {
         const data = await response.json();
         if (data.ok) {
             alert('Заказ успешно отправлен в Telegram!');
-            // Очистить корзину
             cart = [];
             updateCartUI();
             cartModal.style.display = 'none';
@@ -361,7 +347,7 @@ async function sendOrderToTelegram() {
     }
 }
 
-// Обработчики модального окна
+// Обработчики модального окна корзины
 cartIcon.addEventListener('click', () => {
     renderCartModal();
     cartModal.style.display = 'block';
@@ -377,26 +363,37 @@ window.addEventListener('click', (event) => {
     }
 });
 
-// Кнопка "Оформить заказ" (просто альтернатива отправке)
 checkoutBtn.addEventListener('click', sendOrderToTelegram);
 sendOrderBtn.addEventListener('click', sendOrderToTelegram);
 
-// ========== КОНТАКТНЫЕ КНОПКИ ==========
-contactBtn.addEventListener('click', () => {
-    window.open('https://t.me/ваш_канал', '_blank'); // замените на ссылку вашего Telegram-канала
+// ========== НОВЫЕ МОДАЛЬНЫЕ ОКНА ==========
+productInfoBtn.addEventListener('click', () => {
+    infoModal.style.display = 'block';
 });
 
 missingModelBtn.addEventListener('click', () => {
-    const text = 'Больше моделей на сайте https://makerworld.com/ru просто сбросьте нам ссылку на понравившуюся Вам модель нам в телеграмм.';
-    const telegramLink = 'https://t.me/ваш_аккаунт'; // замените на ссылку вашего Telegram-аккаунта
-    // Показываем сообщение и предлагаем перейти
-    if (confirm(`${text}\n\nПерейти в Telegram?`)) {
-        window.open(telegramLink, '_blank');
+    missingModal.style.display = 'block';
+});
+
+closeInfo.addEventListener('click', () => {
+    infoModal.style.display = 'none';
+});
+
+closeMissing.addEventListener('click', () => {
+    missingModal.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target === infoModal) {
+        infoModal.style.display = 'none';
+    }
+    if (event.target === missingModal) {
+        missingModal.style.display = 'none';
     }
 });
 
-productInfoBtn.addEventListener('click', () => {
-    productInfoBlock.classList.toggle('hidden');
+contactBtn.addEventListener('click', () => {
+    window.open('https://t.me/ваш_канал', '_blank'); // замените на ваш канал
 });
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
