@@ -251,6 +251,7 @@ main {
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 
 .product-card:hover {
@@ -306,6 +307,7 @@ main {
     background: var(--button-hover);
 }
 
+/* Модальные окна */
 .modal {
     display: none;
     position: fixed;
@@ -320,7 +322,7 @@ main {
 
 .modal-content {
     background-color: var(--card-bg);
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 2rem;
     border-radius: 15px;
     width: 450px;
@@ -330,18 +332,21 @@ main {
     color: var(--text-primary);
 }
 
-.modal-large {
-    width: 50vw;
-    max-width: 600px;
+/* Увеличенные модальные окна (в 2.5 раза больше базового) */
+.modal-extra-large {
+    width: 90vw;
+    max-width: 1200px;
+    margin: 2% auto;
 }
 
 @media (max-width: 768px) {
-    .modal-large {
-        width: 90vw;
+    .modal-extra-large {
+        width: 95vw;
+        margin: 5% auto;
     }
 }
 
-.close, .close-info, .close-missing {
+.close, .close-info, .close-missing, .close-product {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -350,8 +355,69 @@ main {
     line-height: 1;
 }
 
-.close:hover, .close-info:hover, .close-missing:hover {
+.close:hover, .close-info:hover, .close-missing:hover, .close-product:hover {
     color: black;
+}
+
+/* Детальное отображение товара */
+.product-detail {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.product-detail img {
+    width: 50%;
+    max-height: 70vh;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.detail-info {
+    flex: 1;
+}
+
+.detail-info h2 {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.detail-info p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.detail-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--price-color);
+    margin: 1.5rem 0;
+}
+
+.add-to-cart-btn {
+    background: var(--button-bg);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+.add-to-cart-btn:hover {
+    background: var(--button-hover);
+}
+
+@media (max-width: 768px) {
+    .product-detail {
+        flex-direction: column;
+    }
+    .product-detail img {
+        width: 100%;
+        max-height: 50vh;
+    }
 }
 
 #cart-items {
