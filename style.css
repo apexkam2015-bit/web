@@ -79,19 +79,6 @@ header h1 {
     background: rgba(255,255,255,0.3);
 }
 
-.cart-icon {
-    font-size: 1.5rem;
-    cursor: pointer;
-    background: rgba(255,255,255,0.2);
-    padding: 0.5rem 1rem;
-    border-radius: 30px;
-    transition: background 0.3s;
-}
-
-.cart-icon:hover {
-    background: rgba(255,255,255,0.3);
-}
-
 /* Информационная панель под шапкой */
 .info-panel {
     display: flex;
@@ -307,6 +294,49 @@ main {
     background: var(--button-hover);
 }
 
+/* Плавающая кнопка корзины */
+.floating-cart {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--button-bg);
+    color: white;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    z-index: 999;
+}
+
+.floating-cart:hover {
+    background: var(--button-hover);
+    transform: scale(1.1);
+}
+
+.floating-cart span {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #e74c3c;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    min-width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
 /* Модальные окна */
 .modal {
     display: none;
@@ -332,7 +362,7 @@ main {
     color: var(--text-primary);
 }
 
-/* Увеличенные модальные окна (в 2.5 раза больше базового) */
+/* Увеличенные модальные окна (90% ширины) */
 .modal-extra-large {
     width: 90vw;
     max-width: 1200px;
@@ -420,6 +450,7 @@ main {
     }
 }
 
+/* Корзина */
 #cart-items {
     list-style: none;
     margin: 1rem 0;
@@ -448,6 +479,27 @@ main {
     background: #c0392b;
 }
 
+.checkout-form {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.checkout-form input {
+    padding: 0.8rem;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.checkout-form input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
 .cart-actions {
     display: flex;
     gap: 0.5rem;
@@ -462,7 +514,11 @@ main {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    flex: 1;
+    width: 100%;
+}
+
+#checkout-btn:hover {
+    background: #2ecc71;
 }
 
 .send-btn {
@@ -473,7 +529,6 @@ main {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    flex: 1;
 }
 
 .send-btn:hover {
