@@ -10,42 +10,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="theme-light"> <!-- по умолчанию светлая тема, но скрипт загрузит сохранённую -->
+<body class="theme-light">
     <header>
         <h1>Камчатский магазин 3Д печати, сделаем любую хуиту</h1>
         <div style="display: flex; align-items: center; gap: 1rem;">
-            <button id="theme-toggle" class="theme-toggle">🌙</button> <!-- кнопка переключения темы -->
+            <button id="theme-toggle" class="theme-toggle">🌙</button>
             <div class="cart-icon">
                 🛒 <span id="cart-count">0</span>
             </div>
         </div>
     </header>
 
+    <!-- Панель контактов и информации -->
+    <div class="info-panel">
+        <button id="contact-btn" class="info-btn">📞 Наши контакты</button>
+        <button id="missing-model-btn" class="info-btn">❓ Нет интересующей модели</button>
+        <button id="product-info-btn" class="info-btn">ℹ️ Информация о продукции</button>
+    </div>
+
     <main>
         <aside class="sidebar">
             <h2>Категории</h2>
-            <ul class="category-tree" id="category-tree">
-                <!-- Дерево категорий строится через JS -->
-            </ul>
+            <ul class="category-tree" id="category-tree"></ul>
 
-            <div class="add-product-form">
-                <h3>Добавить товар</h3>
-                <input type="text" id="new-name" placeholder="Название" />
-                <input type="number" id="new-price" placeholder="Цена" />
-                <input type="text" id="new-image" placeholder="Ссылка на картинку" />
-                <textarea id="new-description" placeholder="Описание"></textarea>
-                <select id="new-category">
-                    <option value="">Выберите подкатегорию</option>
-                </select>
-                <button id="add-product-btn">Добавить товар</button>
+            <!-- Блок информации о продукции (скрыт по умолчанию, показывается по кнопке) -->
+            <div id="product-info-block" class="product-info hidden">
+                <h3>О нашей продукции</h3>
+                <p>Модели изготавливаются из PLA (полилактид) пластика — это самый популярный, экологичный и простой в печати пластик для FDM 3D-принтеров. Изготавливается из возобновляемого сырья (кукуруза, тростник), биоразлагаем, нетоксичен и почти не имеет запаха. Отличается высокой жесткостью, низкой усадкой, отличной детализацией и яркими цветами, но хрупок и не переносит высоких температур (размягчается от 60°C).</p>
             </div>
         </aside>
 
         <section class="content">
-            <h2 id="category-title">Все товары</h2>
-            <div class="products" id="products-container">
-                <!-- Карточки товаров -->
+            <!-- Строка поиска -->
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Поиск товаров по названию или тегам..." />
             </div>
+
+            <h2 id="category-title">Все товары</h2>
+            <div class="products" id="products-container"></div>
         </section>
     </main>
 
@@ -56,7 +58,10 @@
             <h2>Корзина</h2>
             <ul id="cart-items"></ul>
             <p>Итого: <span id="cart-total">0</span> руб.</p>
-            <button id="checkout-btn">Оформить заказ</button>
+            <div class="cart-actions">
+                <button id="checkout-btn">Оформить заказ</button>
+                <button id="send-order-btn" class="send-btn">📤 Отправить заказ в Telegram</button>
+            </div>
         </div>
     </div>
 
