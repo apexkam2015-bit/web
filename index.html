@@ -15,9 +15,7 @@
         <h1>Камчатский магазин 3Д печати, сделаем любую хуиту</h1>
         <div style="display: flex; align-items: center; gap: 1rem;">
             <button id="theme-toggle" class="theme-toggle">🌙</button>
-            <div class="cart-icon">
-                🛒 <span id="cart-count">0</span>
-            </div>
+            <!-- Кнопка корзины удалена из шапки, теперь она плавающая -->
         </div>
     </header>
 
@@ -45,6 +43,11 @@
         </section>
     </main>
 
+    <!-- Плавающая кнопка корзины -->
+    <div id="floating-cart" class="floating-cart">
+        🛒 <span id="cart-count">0</span>
+    </div>
+
     <!-- Модальное окно корзины -->
     <div id="cart-modal" class="modal">
         <div class="modal-content">
@@ -52,9 +55,15 @@
             <h2>Корзина</h2>
             <ul id="cart-items"></ul>
             <p>Итого: <span id="cart-total">0</span> руб.</p>
+            
+            <!-- Форма для данных клиента -->
+            <div class="checkout-form">
+                <input type="text" id="customer-name" placeholder="Ваше имя" required>
+                <input type="tel" id="customer-phone" placeholder="Контактный телефон" required>
+            </div>
+
             <div class="cart-actions">
                 <button id="checkout-btn">Оформить заказ</button>
-                <button id="send-order-btn" class="send-btn">📤 Отправить заказ в Telegram</button>
             </div>
         </div>
     </div>
