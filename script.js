@@ -150,7 +150,7 @@ const cartModal = document.getElementById('cart-modal');
 const cartItemsList = document.getElementById('cart-items');
 const cartTotal = document.getElementById('cart-total');
 const closeModal = document.querySelector('.close');
-const cartIcon = document.querySelector('.cart-icon');
+const floatingCart = document.getElementById('floating-cart');
 const checkoutBtn = document.getElementById('checkout-btn');
 const searchInput = document.getElementById('search-input');
 const contactBtn = document.getElementById('contact-btn');
@@ -402,7 +402,7 @@ async function sendOrderToTelegram() {
 }
 
 // Обработчики модального окна корзины
-cartIcon.addEventListener('click', () => {
+floatingCart.addEventListener('click', () => {
     renderCartModal();
     cartModal.style.display = 'block';
 });
