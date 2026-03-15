@@ -48,7 +48,7 @@ const imageUrls = [
     'https://i.ibb.co/pvYqfJKm/benchy.webp'
 ];
 
-// ========== КАТЕГОРИИ (те же, что и раньше) ==========
+// ========== КАТЕГОРИИ ==========
 const categories = [
     {
         id: 'toys',
@@ -228,16 +228,6 @@ function filterProductsByCategory(categoryId) {
     renderProducts();
 }
 
-function searchProducts(query) {
-    if (!query.trim()) return products;
-    const lowerQuery = query.toLowerCase().trim();
-    return products.filter(product => {
-        if (product.name.toLowerCase().includes(lowerQuery)) return true;
-        if (product.tags.some(tag => tag.toLowerCase().includes(lowerQuery))) return true;
-        return false;
-    });
-}
-
 function renderProducts() {
     let filtered = products;
     if (currentCategory) {
@@ -415,7 +405,6 @@ closeCatalog.addEventListener('click', () => {
     catalogMenu.classList.remove('show');
 });
 
-// Закрыть каталог при клике вне его
 window.addEventListener('click', (event) => {
     if (!catalogMenu.contains(event.target) && !catalogBtn.contains(event.target)) {
         catalogMenu.classList.remove('show');
