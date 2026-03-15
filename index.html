@@ -11,15 +11,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="theme-light">
-    <header>
-        <h1>Камчатский магазин 3Д печати, сделаем любую хуиту</h1>
-        <div style="display: flex; align-items: center; gap: 1rem;">
+    <!-- Фиксированная шапка -->
+    <header class="sticky-header">
+        <div class="header-left">
+            <button id="catalog-btn" class="catalog-btn">📋 Каталог</button>
+            <h1>Камчатский магазин 3Д печати</h1>
+        </div>
+        <div class="header-right">
             <button id="theme-toggle" class="theme-toggle">🌙</button>
-            <!-- Кнопка корзины удалена из шапки, теперь она плавающая -->
         </div>
     </header>
 
-    <!-- Панель контактов и информации -->
+    <!-- Выпадающее меню каталога -->
+    <div id="catalog-menu" class="catalog-menu">
+        <div class="catalog-menu-content">
+            <button class="close-catalog">&times;</button>
+            <h2>Категории</h2>
+            <ul class="category-tree" id="category-tree"></ul>
+        </div>
+    </div>
+
+    <!-- Панель контактов и информации (под шапкой) -->
     <div class="info-panel">
         <button id="contact-btn" class="info-btn">📞 Наши контакты</button>
         <button id="missing-model-btn" class="info-btn">❓ Нет интересующей модели</button>
@@ -27,13 +39,8 @@
     </div>
 
     <main>
-        <aside class="sidebar">
-            <h2>Категории</h2>
-            <ul class="category-tree" id="category-tree"></ul>
-        </aside>
-
+        <!-- Поиск и контент (без боковой панели) -->
         <section class="content">
-            <!-- Строка поиска -->
             <div class="search-bar">
                 <input type="text" id="search-input" placeholder="Поиск товаров по названию или тегам..." />
             </div>
@@ -56,7 +63,6 @@
             <ul id="cart-items"></ul>
             <p>Итого: <span id="cart-total">0</span> руб.</p>
             
-            <!-- Форма для данных клиента -->
             <div class="checkout-form">
                 <input type="text" id="customer-name" placeholder="Ваше имя" required>
                 <input type="tel" id="customer-phone" placeholder="Контактный телефон" required>
@@ -68,7 +74,7 @@
         </div>
     </div>
 
-    <!-- Модальное окно информации о продукции (увеличенное) -->
+    <!-- Модальное окно информации о продукции -->
     <div id="info-modal" class="modal">
         <div class="modal-content modal-extra-large">
             <span class="close-info">&times;</span>
@@ -77,7 +83,7 @@
         </div>
     </div>
 
-    <!-- Модальное окно "Нет интересующей модели" (увеличенное) -->
+    <!-- Модальное окно "Нет интересующей модели" -->
     <div id="missing-modal" class="modal">
         <div class="modal-content modal-extra-large">
             <span class="close-missing">&times;</span>
