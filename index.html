@@ -18,6 +18,15 @@
             <h1>Камчатский магазин 3Д печати</h1>
         </div>
         <div class="header-right">
+            <!-- Поле поиска -->
+            <div class="search-wrapper">
+                <input type="text" id="search-input" placeholder="Поиск товаров..." />
+            </div>
+            <!-- Кнопки -->
+            <button id="missing-model-btn" class="header-btn" title="Нет интересующей модели">❓ Нет модели</button>
+            <button id="product-info-btn" class="header-btn" title="Информация о продукции">ℹ️ О продукции</button>
+            <button id="contact-btn" class="header-btn" title="Наши контакты">📞 Контакты</button>
+            <!-- Переключатель темы -->
             <button id="theme-toggle" class="theme-toggle">🌙</button>
         </div>
     </header>
@@ -31,20 +40,9 @@
         </div>
     </div>
 
-    <!-- Панель контактов и информации (под шапкой) -->
-    <div class="info-panel">
-        <button id="contact-btn" class="info-btn">📞 Наши контакты</button>
-        <button id="missing-model-btn" class="info-btn">❓ Нет интересующей модели</button>
-        <button id="product-info-btn" class="info-btn">ℹ️ Информация о продукции</button>
-    </div>
-
     <main>
-        <!-- Поиск и контент (без боковой панели) -->
+        <!-- Контент (без боковой панели) -->
         <section class="content">
-            <div class="search-bar">
-                <input type="text" id="search-input" placeholder="Поиск товаров по названию или тегам..." />
-            </div>
-
             <h2 id="category-title">Все товары</h2>
             <div class="products" id="products-container"></div>
         </section>
