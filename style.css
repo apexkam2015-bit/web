@@ -105,9 +105,10 @@ body {
     flex: 1 1 auto;
 }
 
+/* Уменьшенное поле поиска */
 .search-wrapper {
-    flex: 2 1 250px;
-    min-width: 200px;
+    flex: 1 1 150px;  /* было 2 1 250px */
+    min-width: 120px;  /* было 200px */
 }
 
 #search-input {
@@ -609,5 +610,8 @@ main {
     .theme-toggle {
         font-size: 1.2rem;
         padding: 0.2rem 0.6rem;
+    }
+    .search-wrapper {
+        min-width: 100px; /* ещё меньше на мобильных */
     }
 }
