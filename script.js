@@ -1,6 +1,6 @@
 // ========== НАСТРОЙКИ TELEGRAM (ЗАМЕНИТЕ НА СВОИ) ==========
-const TELEGRAM_BOT_TOKEN = '8798119858:AAF_07GNJPz0lep_Vplkv930jVtlASZ2byU';      // замените на реальный токен
-const TELEGRAM_CHAT_ID = '331361131';           // замените на ваш chat_id
+const TELEGRAM_BOT_TOKEN = 'ВАШ_ТОКЕН_БОТА';      // замените на реальный токен
+const TELEGRAM_CHAT_ID = 'ВАШ_CHAT_ID';           // замените на ваш chat_id
 
 // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ==========
 const themeToggle = document.getElementById('theme-toggle');
@@ -48,7 +48,7 @@ const imageUrls = [
     'https://i.ibb.co/pvYqfJKm/benchy.webp'
 ];
 
-// ========== КАТЕГОРИИ ==========
+// ========== КАТЕГОРИИ (те же, что и раньше) ==========
 const categories = [
     {
         id: 'toys',
@@ -161,6 +161,11 @@ const missingModal = document.getElementById('missing-modal');
 const closeInfo = document.querySelector('.close-info');
 const closeMissing = document.querySelector('.close-missing');
 
+// Элементы каталога
+const catalogBtn = document.getElementById('catalog-btn');
+const catalogMenu = document.getElementById('catalog-menu');
+const closeCatalog = document.querySelector('.close-catalog');
+
 // Поля для данных клиента
 const customerName = document.getElementById('customer-name');
 const customerPhone = document.getElementById('customer-phone');
@@ -176,7 +181,7 @@ const detailAddToCart = document.getElementById('detail-add-to-cart');
 
 // ========== ФУНКЦИИ ==========
 
-// Построение дерева категорий
+// Построение дерева категорий в меню каталога
 function buildCategoryTree() {
     let html = '';
     categories.forEach(cat => {
@@ -202,6 +207,7 @@ function buildCategoryTree() {
             filterProductsByCategory(categoryId);
             searchInput.value = '';
             searchQuery = '';
+            catalogMenu.classList.remove('show'); // Закрыть меню после выбора
         });
     });
 }
@@ -265,7 +271,6 @@ function renderProducts() {
         productsContainer.appendChild(card);
     });
 
-    // Добавляем обработчик клика по карточке для открытия детального просмотра
     document.querySelectorAll('.product-card').forEach(card => {
         card.addEventListener('click', (e) => {
             if (e.target.tagName === 'BUTTON') return;
@@ -278,7 +283,6 @@ function renderProducts() {
     });
 }
 
-// Показать детальную информацию о товаре
 function showProductDetail(product) {
     detailImage.src = product.image;
     detailImage.alt = product.name;
@@ -341,7 +345,6 @@ function renderCartModal() {
     cartTotal.textContent = total;
 }
 
-// Отправка заказа в Telegram с проверкой имени и телефона
 async function sendOrderToTelegram() {
     if (cart.length === 0) {
         alert('Корзина пуста');
@@ -401,7 +404,25 @@ async function sendOrderToTelegram() {
     }
 }
 
-// Обработчики модального окна корзины
+// ========== ОБРАБОТЧИКИ ==========
+
+// Каталог
+catalogBtn.addEventListener('click', () => {
+    catalogMenu.classList.toggle('show');
+});
+
+closeCatalog.addEventListener('click', () => {
+    catalogMenu.classList.remove('show');
+});
+
+// Закрыть каталог при клике вне его
+window.addEventListener('click', (event) => {
+    if (!catalogMenu.contains(event.target) && !catalogBtn.contains(event.target)) {
+        catalogMenu.classList.remove('show');
+    }
+});
+
+// Корзина
 floatingCart.addEventListener('click', () => {
     renderCartModal();
     cartModal.style.display = 'block';
@@ -419,7 +440,7 @@ window.addEventListener('click', (event) => {
 
 checkoutBtn.addEventListener('click', sendOrderToTelegram);
 
-// ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ИНФОРМАЦИИ ==========
+// Модальные окна информации
 productInfoBtn.addEventListener('click', () => {
     infoModal.style.display = 'block';
 });
@@ -445,7 +466,7 @@ window.addEventListener('click', (event) => {
     }
 });
 
-// ========== МОДАЛЬНОЕ ОКНО ТОВАРА ==========
+// Модальное окно товара
 closeProduct.addEventListener('click', () => {
     productModal.style.display = 'none';
 });
@@ -456,7 +477,7 @@ window.addEventListener('click', (event) => {
     }
 });
 
-// ========== КОНТАКТЫ ==========
+// Контакты
 contactBtn.addEventListener('click', () => {
     window.open('https://t.me/ваш_канал', '_blank'); // замените на ваш канал
 });
