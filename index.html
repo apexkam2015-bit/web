@@ -18,12 +18,11 @@
             <h1>Камчатский магазин 3Д печати</h1>
         </div>
         <div class="header-right">
-            <!-- Поле поиска с фиксированной шириной -->
+            <!-- Поле поиска (фиксированная ширина) -->
             <div class="search-wrapper">
                 <input type="text" id="search-input" placeholder="Поиск..." />
             </div>
-            <!-- Кнопки -->
-            <button id="missing-model-btn" class="header-btn" title="Нет интересующей модели">❓ Нет модели</button>
+            <!-- Кнопки (без "Нет модели") -->
             <button id="product-info-btn" class="header-btn" title="Информация о продукции">ℹ️ О продукции</button>
             <button id="contact-btn" class="header-btn" title="Наши контакты">📞 Контакты</button>
             <!-- Переключатель темы -->
@@ -41,7 +40,14 @@
     </div>
 
     <main>
-        <!-- Контент (без боковой панели) -->
+        <!-- Новое информационное поле -->
+        <div class="info-message">
+            <p>🔍 Если вы не нашли модель, которая вас интересует, вы всегда можете воспользоваться сайтом <a href="https://makerworld.com/ru" target="_blank">makerworld.com/ru</a></p>
+            <p>📬 Просто сбросьте нам ссылку на нужную вам модель в наш телеграмм, после чего мы сможем распечатать ее для вас.</p>
+            <p>📲 Наш телеграмм: <a href="https://t.me/Alexxandre_97" target="_blank">@Alexxandre_97</a></p>
+        </div>
+
+        <!-- Основной контент -->
         <section class="content">
             <h2 id="category-title">Все товары</h2>
             <div class="products" id="products-container"></div>
@@ -78,17 +84,6 @@
             <span class="close-info">&times;</span>
             <h2>Информация о продукции</h2>
             <p>Модели изготавливаются из PLA (полилактид) пластика — это самый популярный, экологичный и простой в печати пластик для FDM 3D-принтеров. Изготавливается из возобновляемого сырья (кукуруза, тростник), биоразлагаем, нетоксичен и почти не имеет запаха. Отличается высокой жесткостью, низкой усадкой, отличной детализацией и яркими цветами, но хрупок и не переносит высоких температур (размягчается от 60°C).</p>
-        </div>
-    </div>
-
-    <!-- Модальное окно "Нет интересующей модели" -->
-    <div id="missing-modal" class="modal">
-        <div class="modal-content modal-extra-large">
-            <span class="close-missing">&times;</span>
-            <h2>Нет интересующей модели?</h2>
-            <p>Больше моделей на сайте <a href="https://makerworld.com/ru" target="_blank">makerworld.com</a>. Просто сбросьте нам ссылку на понравившуюся Вам модель в Telegram.</p>
-            <p>Наш Telegram: <a href="https://t.me/ваш_аккаунт" target="_blank">@ваш_аккаунт</a></p>
-            <p><button onclick="window.open('https://t.me/ваш_аккаунт', '_blank')" class="send-btn" style="width: auto; padding: 0.5rem 1rem;">Перейти в Telegram</button></p>
         </div>
     </div>
 
