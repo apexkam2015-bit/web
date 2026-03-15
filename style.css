@@ -18,9 +18,10 @@
     --button-hover: #2980b9;
     --catalog-menu-bg: #ffffff;
     --catalog-menu-border: #ddd;
-    --info-message-bg: rgba(255, 255, 255, 0.9);
+    --info-message-bg: rgba(255, 255, 255, 0.95);
     --info-message-border: #ddd;
     --link-color: #3498db;
+    --info-icon-color: #e67e22;
 }
 
 /* Тёмная тема */
@@ -37,9 +38,10 @@ body.theme-dark {
     --button-hover: #666666;
     --catalog-menu-bg: #2d2d2d;
     --catalog-menu-border: #444;
-    --info-message-bg: rgba(45, 45, 45, 0.9);
+    --info-message-bg: rgba(45, 45, 45, 0.95);
     --info-message-border: #555;
     --link-color: #5faee3;
+    --info-icon-color: #ffb347;
 }
 
 body {
@@ -269,7 +271,7 @@ body {
 
 main {
     display: flex;
-    flex-direction: column; /* Чтобы блок был сверху, а контент под ним */
+    flex-direction: column;
     min-height: calc(100vh - 140px);
     padding: 0 1.5rem 1.5rem 1.5rem;
     background: var(--bg-overlay);
@@ -277,37 +279,77 @@ main {
     transition: background 0.3s;
 }
 
-/* Информационное сообщение */
+/* Улучшенное информационное сообщение */
 .info-message {
     background: var(--info-message-bg);
-    border-left: 5px solid #3498db;
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--card-shadow);
-    backdrop-filter: blur(3px);
+    border-radius: 20px;
+    padding: 1.8rem 2rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border-left: 8px solid var(--price-color);
+    transition: transform 0.2s;
 }
 
-.info-message p {
+.info-message:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+.info-icon {
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--info-icon-color);
+    background: rgba(255,255,255,0.2);
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.info-text {
+    flex: 1;
+}
+
+.info-text p {
     margin-bottom: 0.8rem;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
     color: var(--text-primary);
 }
 
-.info-message p:last-child {
+.info-text p:last-child {
     margin-bottom: 0;
 }
 
-.info-message a {
+.info-text a {
     color: var(--link-color);
     text-decoration: none;
     font-weight: 600;
-    border-bottom: 1px dashed;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s;
 }
 
-.info-message a:hover {
-    text-decoration: none;
-    border-bottom-style: solid;
+.info-text a:hover {
+    border-bottom-color: var(--link-color);
+}
+
+.telegram-link {
+    font-weight: 600;
+    background: rgba(0, 136, 204, 0.1);
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+    display: inline-block;
+}
+
+.telegram-link a {
+    color: #0088cc;
 }
 
 .content {
@@ -471,7 +513,7 @@ main {
     }
 }
 
-.close, .close-info, .close-missing, .close-product {
+.close, .close-info, .close-product {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -480,7 +522,7 @@ main {
     line-height: 1;
 }
 
-.close:hover, .close-info:hover, .close-missing:hover, .close-product:hover {
+.close:hover, .close-info:hover, .close-product:hover {
     color: black;
 }
 
@@ -657,7 +699,11 @@ main {
         max-width: 150px;
     }
     .info-message {
-        padding: 1rem;
-        font-size: 0.9rem;
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+    .info-icon {
+        margin-bottom: 0.5rem;
     }
 }
