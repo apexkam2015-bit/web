@@ -18,10 +18,9 @@
     --button-hover: #2980b9;
     --catalog-menu-bg: #ffffff;
     --catalog-menu-border: #ddd;
-    --info-message-bg: rgba(255, 255, 255, 0.95);
+    --info-message-bg: rgba(255, 255, 255, 0.9);
     --info-message-border: #ddd;
     --link-color: #3498db;
-    --info-icon-color: #e67e22;
 }
 
 /* Тёмная тема */
@@ -38,10 +37,9 @@ body.theme-dark {
     --button-hover: #666666;
     --catalog-menu-bg: #2d2d2d;
     --catalog-menu-border: #444;
-    --info-message-bg: rgba(45, 45, 45, 0.95);
+    --info-message-bg: rgba(45, 45, 45, 0.9);
     --info-message-border: #555;
     --link-color: #5faee3;
-    --info-icon-color: #ffb347;
 }
 
 body {
@@ -87,21 +85,27 @@ body {
     white-space: nowrap;
 }
 
+/* Увеличенная и яркая кнопка каталога */
 .catalog-btn {
-    background: rgba(255,255,255,0.2);
-    border: none;
+    background: var(--price-color);
     color: white;
-    font-size: 1rem;
+    border: 2px solid white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 0.7rem 1.5rem;
+    border-radius: 40px;
     cursor: pointer;
-    padding: 0.5rem 1rem;
-    border-radius: 30px;
-    transition: background 0.3s;
-    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     white-space: nowrap;
+    letter-spacing: 0.5px;
 }
 
 .catalog-btn:hover {
-    background: rgba(255,255,255,0.3);
+    background: var(--button-hover);
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    border-color: #f0f0f0;
 }
 
 .header-right {
@@ -279,77 +283,36 @@ main {
     transition: background 0.3s;
 }
 
-/* Улучшенное информационное сообщение */
+/* Приветственное информационное поле */
 .info-message {
     background: var(--info-message-bg);
-    border-radius: 20px;
-    padding: 1.8rem 2rem;
-    margin-bottom: 2.5rem;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    backdrop-filter: blur(5px);
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    border-left: 8px solid var(--price-color);
-    transition: transform 0.2s;
+    border-left: 5px solid #3498db;
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-size: 1rem;
+    backdrop-filter: blur(3px);
 }
 
-.info-message:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
-}
-
-.info-icon {
-    font-size: 3rem;
-    line-height: 1;
-    color: var(--info-icon-color);
-    background: rgba(255,255,255,0.2);
-    width: 70px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.info-text {
-    flex: 1;
-}
-
-.info-text p {
-    margin-bottom: 0.8rem;
-    font-size: 1.1rem;
-    line-height: 1.6;
+.info-message p {
+    margin-bottom: 0.5rem;
     color: var(--text-primary);
 }
 
-.info-text p:last-child {
+.info-message p:last-child {
     margin-bottom: 0;
 }
 
-.info-text a {
+.info-message a {
     color: var(--link-color);
     text-decoration: none;
     font-weight: 600;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.2s;
+    border-bottom: 1px dashed;
 }
 
-.info-text a:hover {
-    border-bottom-color: var(--link-color);
-}
-
-.telegram-link {
-    font-weight: 600;
-    background: rgba(0, 136, 204, 0.1);
-    padding: 0.3rem 1rem;
-    border-radius: 30px;
-    display: inline-block;
-}
-
-.telegram-link a {
-    color: #0088cc;
+.info-message a:hover {
+    border-bottom-style: solid;
 }
 
 .content {
@@ -678,9 +641,11 @@ main {
     .header-left h1 {
         font-size: 1rem;
     }
+    /* Уменьшаем кнопку каталога для мобильных, но сохраняем яркость */
     .catalog-btn {
-        font-size: 0.9rem;
-        padding: 0.3rem 0.8rem;
+        font-size: 1rem;
+        padding: 0.4rem 1rem;
+        border-width: 1px;
     }
     .header-right {
         justify-content: center;
@@ -699,11 +664,6 @@ main {
         max-width: 150px;
     }
     .info-message {
-        flex-direction: column;
-        text-align: center;
-        padding: 1.5rem;
-    }
-    .info-icon {
-        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
     }
 }
