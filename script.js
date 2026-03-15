@@ -1,6 +1,6 @@
 // ========== НАСТРОЙКИ TELEGRAM (ЗАМЕНИТЕ НА СВОИ) ==========
 const TELEGRAM_BOT_TOKEN = '8798119858:AAF_07GNJPz0lep_Vplkv930jVtlASZ2byU';      // замените на реальный токен
-const TELEGRAM_CHAT_ID = '331361131';           // замените на ваш chat_id
+const TELEGRAM_CHAT_ID = '-5291424885';           // замените на ваш chat_id
 
 // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ==========
 const themeToggle = document.getElementById('theme-toggle');
@@ -154,12 +154,9 @@ const floatingCart = document.getElementById('floating-cart');
 const checkoutBtn = document.getElementById('checkout-btn');
 const searchInput = document.getElementById('search-input');
 const contactBtn = document.getElementById('contact-btn');
-const missingModelBtn = document.getElementById('missing-model-btn');
 const productInfoBtn = document.getElementById('product-info-btn');
 const infoModal = document.getElementById('info-modal');
-const missingModal = document.getElementById('missing-modal');
 const closeInfo = document.querySelector('.close-info');
-const closeMissing = document.querySelector('.close-missing');
 
 // Элементы каталога
 const catalogBtn = document.getElementById('catalog-btn');
@@ -207,7 +204,7 @@ function buildCategoryTree() {
             filterProductsByCategory(categoryId);
             searchInput.value = '';
             searchQuery = '';
-            catalogMenu.classList.remove('show'); // Закрыть меню после выбора
+            catalogMenu.classList.remove('show');
         });
     });
 }
@@ -429,29 +426,18 @@ window.addEventListener('click', (event) => {
 
 checkoutBtn.addEventListener('click', sendOrderToTelegram);
 
-// Модальные окна информации
+// Модальное окно информации о продукции
 productInfoBtn.addEventListener('click', () => {
     infoModal.style.display = 'block';
-});
-
-missingModelBtn.addEventListener('click', () => {
-    missingModal.style.display = 'block';
 });
 
 closeInfo.addEventListener('click', () => {
     infoModal.style.display = 'none';
 });
 
-closeMissing.addEventListener('click', () => {
-    missingModal.style.display = 'none';
-});
-
 window.addEventListener('click', (event) => {
     if (event.target === infoModal) {
         infoModal.style.display = 'none';
-    }
-    if (event.target === missingModal) {
-        missingModal.style.display = 'none';
     }
 });
 
@@ -466,9 +452,9 @@ window.addEventListener('click', (event) => {
     }
 });
 
-// Контакты
+// Контакты (открывает Telegram-канал)
 contactBtn.addEventListener('click', () => {
-    window.open('https://t.me/ваш_канал', '_blank'); // замените на ваш канал
+    window.open('https://t.me/Alexxandre_97', '_blank');
 });
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
