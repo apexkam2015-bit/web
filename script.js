@@ -22,33 +22,11 @@ themeToggle.addEventListener('click', () => {
     setTheme(newTheme);
 });
 
-// ========== ВСЕ ССЫЛКИ НА КАРТИНКИ ==========
-const imageUrls = [
-    'https://i.ibb.co/ynJxgrcG/image.jpg',
-    'https://i.ibb.co/f7zqG5S/image.jpg',
-    'https://i.ibb.co/0ypFrJr8/image.jpg',
-    'https://i.ibb.co/5XpBv6PC/image.jpg',
-    'https://i.ibb.co/sv9HCQPX/image.jpg',
-    'https://i.ibb.co/TDfxFJFh/image.jpg',
-    'https://i.ibb.co/MDhcngwJ/image.webp',
-    'https://i.ibb.co/svR65LG2/images-1.jpg',
-    'https://i.ibb.co/6S09nyv/1.png',
-    'https://i.ibb.co/q3kcJvzm/HR-Model2-CF-8.jpg',
-    'https://i.ibb.co/3ms70PD8/Tablemount-Model-1-CF-2.jpg',
-    'https://i.ibb.co/mCvP4hpL/536064e39d46d44d990b707de85ebbed-preview-featured.jpg',
-    'https://i.ibb.co/CSz2wNZ/7.png',
-    'https://i.ibb.co/MkfTj7RW/images.jpg',
-    'https://i.ibb.co/B5mR3Xdp/top10-3d-model-2.jpg',
-    'https://i.ibb.co/7NYVQdfS/1721250346176877711.jpg',
-    'https://i.ibb.co/dwP0Ghjq/2-68.png',
-    'https://i.ibb.co/h18xm625/dragon-3d-model-stl.jpg',
-    'https://i.ibb.co/fGPkgN7v/a0aa56767d9f4dbc9e8a7a959108d106.jpg',
-    'https://i.ibb.co/gFt5ZMtt/1-20.png',
-    'https://i.ibb.co/RkqMmgKm/shesterenka-podstavka-telefona-b08ce4a2.png',
-    'https://i.ibb.co/pvYqfJKm/benchy.webp'
-];
+// ========== ВСЕ ССЫЛКИ НА КАРТИНКИ (больше не нужны для генерации, оставлены для справки) ==========
+// (можно удалить, но оставим для возможного использования)
+const imageUrls = []; // не используется
 
-// ========== КАТЕГОРИИ ==========
+// ========== КАТЕГОРИИ (без изменений) ==========
 const categories = [
     {
         id: 'toys',
@@ -76,65 +54,153 @@ const categories = [
     }
 ];
 
-// ========== ГЕНЕРАЦИЯ 250 ТОВАРОВ С ТЕГАМИ ==========
-let products = [];
-const subcategoryIds = ['cartoon', 'animals', 'ground', 'air', 'home', 'garage'];
-const names = {
-    cartoon: ['Чебурашка', 'Микки Маус', 'Губка Боб', 'Шрек', 'Хелло Китти', 'Пикачу', 'Симпсоны', 'Винни Пух'],
-    animals: ['Лев', 'Жираф', 'Слон', 'Тигр', 'Зебра', 'Обезьяна', 'Крокодил', 'Панда'],
-    ground: ['Танк Т-34', 'БТР-80', 'Военный джип', 'Бульдозер', 'Экскаватор', 'Трактор', 'Броневик', 'Танк "Тигр"'],
-    air: ['Истребитель Су-27', 'Вертолёт Ка-52', 'Бомбардировщик B-2', 'Самолёт Ан-2', 'Истребитель F-16', 'Вертолёт Ми-24', 'Планер', 'Квадрокоптер'],
-    home: ['Ваза с узором', 'Подставка под кружку', 'Светильник', 'Держатель для книг', 'Мыльница', 'Крючок для одежды', 'Горшок для цветов', 'Ручка для двери'],
-    garage: ['Держатель для инструментов', 'Крючок для шланга', 'Ящик для мелочей', 'Органайзер для гаек', 'Лоток для ключей', 'Полка для банок', 'Держатель для дрели', 'Магнит для инструментов']
-};
-const descriptions = [
-    'Качественная 3D-печать, PLA пластик',
-    'Прочная модель, высота 10 см',
-    'Детализированная фигурка',
-    'Подходит для подарка',
-    'Ручная постобработка',
-    'Модель с подвижными элементами',
-    'Экологичный материал',
-    'Яркий цвет, не выгорает'
+// ========== НОВЫЙ СПИСОК ТОВАРОВ (только для дома) ==========
+let products = [
+    {
+        id: 1,
+        name: 'Подставка для мыла/губки',
+        price: 350,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/PGsc7Xqd/6e80449db9c92631.jpg',
+        category: 'home',
+        tags: ['кухня', 'ванная', 'губка', 'мыла', 'посуда', 'дом']
+    },
+    {
+        id: 2,
+        name: 'Подставка для мыла',
+        price: 350,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/ccqBRQkD/20240623183428-d7bf47f6-641e-48df-b3a4-2ee001e945f2.png',
+        category: 'home',
+        tags: ['кухня', 'мыло', 'подставка', 'полезное', 'для дома', 'дом']
+    },
+    {
+        id: 3,
+        name: 'Набор для мытья посуды (малый)',
+        price: 1300,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/pBRzvpw0/106ef660-0e52-11f0-8c8e-b3bcabc80b84.jpg',
+        category: 'home',
+        tags: ['посуда', 'кухня', 'мойка', 'дом', 'полезное']
+    },
+    {
+        id: 4,
+        name: 'Футляр для хранения таблеток',
+        price: 500,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/x87wvZJF/IMG-9935-5da726aa-7a5f-401e-9ddb-9fc546234da7.png',
+        category: 'home',
+        tags: ['таблетки', 'футляр', 'хранение', 'для дома', 'дом']
+    },
+    {
+        id: 5,
+        name: 'Набор для мытья посуды (большой)',
+        price: 2400,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/RGxx2s1s/C224-B11-D-8-BFD-48-F0-8-EFC-7-D35-E0487-E3-F-1.png',
+        category: 'home',
+        tags: ['посуда', 'кухня', 'мытье', 'дом', 'для дома']
+    },
+    {
+        id: 6,
+        name: 'Ваза',
+        price: 750,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/1Gh4mzTs/04.png',
+        category: 'home',
+        tags: ['ваза', 'декор', 'для дома', 'дом']
+    },
+    {
+        id: 7,
+        name: 'Ваза рифленая (малая)',
+        price: 800,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/rKS0vNTN/Planter-ribbed-04-34bbcaa2-30a0-4153-a007-c57b0c84a8ef.png',
+        category: 'home',
+        tags: ['ваза', 'цветы', 'для дома', 'дом']
+    },
+    {
+        id: 8,
+        name: 'Ваза рифленая (большая)',
+        price: 1900,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/JRdGYRNx/Planter-ribbed-05-3e29cad0-f8ea-46be-93cd-c23df60a0296.png',
+        category: 'home',
+        tags: ['ваза', 'цветы', 'для дома', 'дом']
+    },
+    {
+        id: 9,
+        name: 'Ваза с автополивкой',
+        price: 1700,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/jvzf68tv/2941-BECD-F525-4-B56-8-F78-D5636633-BC4-B.png',
+        category: 'home',
+        tags: ['ваза', 'цветы', 'дом', 'для дома']
+    },
+    {
+        id: 10,
+        name: 'Комплект для рассады',
+        price: 1800,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/HL1KxPHH/Self-watering-Seed-starter-2.png',
+        category: 'home',
+        tags: ['рассада', 'цветы', 'для дома']
+    },
+    {
+        id: 11,
+        name: 'Диспенсер для бумажных полотенец',
+        price: 800,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/VkqnwWt/Titel-horizont.png',
+        category: 'home',
+        tags: ['для дома', 'кухня', 'полотенца']
+    },
+    {
+        id: 12,
+        name: 'Холдер для чайных пакетиков',
+        price: 1000,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/21vFYYgK/TEA001-7.png',
+        category: 'home',
+        tags: ['чай', 'кухня', 'для дома']
+    },
+    {
+        id: 13,
+        name: 'Магазин для ААА батареек',
+        price: 650,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/2rbrpY1/Mag-V2-6.png',
+        category: 'home',
+        tags: ['батарейки', 'холдер', 'магазин', 'ААА']
+    },
+    {
+        id: 14,
+        name: 'Диспенсер для банок',
+        price: 2000,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/My09Zch6/541821e0-c601-11f0-be47-bb9995818d0e.jpg',
+        category: 'home',
+        tags: ['банки', 'диспенсер', 'кола', 'пиво', 'холодильник', 'кухня', 'дом']
+    },
+    {
+        id: 15,
+        name: 'Тарелка для фисташек со скрытым дном',
+        price: 1200,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/T3XKyX0/DSCF8464.png',
+        category: 'home',
+        tags: ['фисташки', 'тарелка', 'пиво', 'для дома']
+    },
+    {
+        id: 16,
+        name: 'Диспенсер для яиц',
+        price: 1200,
+        description: 'Качественная 3D-печать из PLA пластика',
+        image: 'https://i.ibb.co/Mkn7zCkS/image.png',
+        category: 'home',
+        tags: ['кухня', 'яйца', 'диспенсер', 'дом']
+    }
 ];
-
-const tagsMap = {
-    cartoon: ['мультики', 'игрушки', 'чебурашка', 'микки маус', 'губка боб', 'шрек', 'пикачу', 'симпсоны'],
-    animals: ['животные', 'лев', 'жираф', 'слон', 'тигр', 'зоопарк'],
-    ground: ['техника', 'танк', 'бтр', 'джип', 'бульдозер', 'экскаватор', 'трактор', 'военная'],
-    air: ['авиация', 'самолёт', 'вертолёт', 'истребитель', 'бомбардировщик', 'квадрокоптер'],
-    home: ['дом', 'интерьер', 'ваза', 'подставка', 'светильник', 'мыльница', 'крючок'],
-    garage: ['гараж', 'инструменты', 'органайзер', 'держатель', 'ящик', 'ключи']
-};
-
-let idCounter = 1;
-for (let i = 0; i < 250; i++) {
-    const catIndex = i % subcategoryIds.length;
-    const catId = subcategoryIds[catIndex];
-    const nameIndex = Math.floor(Math.random() * names[catId].length);
-    const name = names[catId][nameIndex] + ' ' + (Math.floor(i / subcategoryIds.length) + 1);
-    const price = 300 + Math.floor(Math.random() * 3000);
-    const description = descriptions[Math.floor(Math.random() * descriptions.length)];
-    const image = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-
-    let tags = [...(tagsMap[catId] || [])];
-    const nameWords = name.toLowerCase().split(' ');
-    nameWords.forEach(word => {
-        if (word.length > 2 && !tags.includes(word)) {
-            tags.push(word);
-        }
-    });
-
-    products.push({
-        id: idCounter++,
-        name: name,
-        price: price,
-        description: description,
-        image: image,
-        category: catId,
-        tags: tags
-    });
-}
 
 // ========== КОРЗИНА ==========
 let cart = [];
