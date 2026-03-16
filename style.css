@@ -641,7 +641,6 @@ main {
     .header-left h1 {
         font-size: 1rem;
     }
-    /* Уменьшаем кнопку каталога для мобильных, но сохраняем яркость */
     .catalog-btn {
         font-size: 1rem;
         padding: 0.4rem 1rem;
