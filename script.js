@@ -50,8 +50,9 @@ const categories = [
     }
 ];
 
-// ========== НОВЫЙ СПИСОК ТОВАРОВ С МАССИВОМ ИЗОБРАЖЕНИЙ ==========
+// ========== НОВЫЙ СПИСОК ТОВАРОВ ==========
 let products = [
+    // Товары для дома (id 1-15)
     {
         id: 1,
         name: 'Подставка для мыла/губки',
@@ -241,6 +242,20 @@ let products = [
         ],
         category: 'home',
         tags: ['кухня', 'яйца', 'диспенсер', 'дом']
+    },
+    // Новый товар в игрушки (id 16)
+    {
+        id: 16,
+        name: 'Эндер дракон',
+        price: 1000,
+        description: 'Качественная 3D-печать из PLA пластика',
+        images: [
+            'https://i.ibb.co/C3G5bWTn/ender-dragon.gif',
+            'https://i.ibb.co/nKSGVrj/2-JPG.jpg',
+            'https://i.ibb.co/fYv8LN6G/3.jpg'
+        ],
+        category: 'cartoon',
+        tags: ['майнкрафт', 'кубики', 'майн', 'дракон', 'игрушка']
     }
 ];
 
@@ -380,6 +395,7 @@ function renderProducts() {
     });
 }
 
+// Показать детальную информацию с галереей
 function showProductDetail(product) {
     detailImage.src = product.images[0] || 'https://via.placeholder.com/300';
     detailImage.alt = product.name;
