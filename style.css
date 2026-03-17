@@ -1,604 +1,702 @@
-// ========== НАСТРОЙКИ TELEGRAM (ЗАМЕНИТЕ НА СВОИ) ==========
-const TELEGRAM_BOT_TOKEN = '8798119858:AAF_07GNJPz0lep_Vplkv930jVtlASZ2byU';      // замените на реальный токен
-const TELEGRAM_CHAT_ID = '-5291424885;           // замените на ваш chat_id
-
-// ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ==========
-const themeToggle = document.getElementById('theme-toggle');
-const body = document.body;
-
-function setTheme(theme) {
-    body.classList.remove('theme-light', 'theme-dark');
-    body.classList.add(theme);
-    themeToggle.textContent = theme === 'theme-dark' ? '☀️' : '🌙';
-    localStorage.setItem('siteTheme', theme);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-const savedTheme = localStorage.getItem('siteTheme') || 'theme-light';
-setTheme(savedTheme);
-
-themeToggle.addEventListener('click', () => {
-    const currentTheme = body.classList.contains('theme-dark') ? 'theme-dark' : 'theme-light';
-    const newTheme = currentTheme === 'theme-dark' ? 'theme-light' : 'theme-dark';
-    setTheme(newTheme);
-});
-
-// ========== КАТЕГОРИИ ==========
-const categories = [
-    {
-        id: 'toys',
-        name: 'Игрушки',
-        subcategories: [
-            { id: 'cartoon', name: 'Мультики', image: 'https://i.ibb.co/MDhcngwJ/image.webp' },
-            { id: 'animals', name: 'Животные', image: 'https://i.ibb.co/f7zqG5S/image.jpg' }
-        ]
-    },
-    {
-        id: 'modeling',
-        name: 'Моделирование',
-        subcategories: [
-            { id: 'ground', name: 'Наземная техника', image: 'https://i.ibb.co/0ypFrJr8/image.jpg' },
-            { id: 'air', name: 'Авиатехника', image: 'https://i.ibb.co/5XpBv6PC/image.jpg' }
-        ]
-    },
-    {
-        id: 'household',
-        name: 'Бытовые модели',
-        subcategories: [
-            { id: 'home', name: 'Для дома', image: 'https://i.ibb.co/sv9HCQPX/image.jpg' },
-            { id: 'garage', name: 'Для гаража', image: 'https://i.ibb.co/TDfxFJFh/image.jpg' }
-        ]
-    }
-];
-
-// ========== НОВЫЙ СПИСОК ТОВАРОВ ==========
-let products = [
-    // Товары для дома (id 1-15)
-    {
-        id: 1,
-        name: 'Подставка для мыла/губки',
-        price: 350,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/PGsc7Xqd/6e80449db9c92631.jpg',
-            'https://i.ibb.co/7tZkQML6/20260226-200445.jpg',
-            'https://i.ibb.co/JFqBLmM1/Japandi-Drain-Tray-Sponge-Soap-Holder-2.png'
-        ],
-        category: 'home',
-        tags: ['кухня', 'ванная', 'губка', 'мыла', 'посуда', 'дом']
-    },
-    {
-        id: 2,
-        name: 'Подставка для мыла',
-        price: 350,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/ccqBRQkD/20240623183428-d7bf47f6-641e-48df-b3a4-2ee001e945f2.png',
-            'https://i.ibb.co/Fb3tg2sk/20240623183433-9f269db4-fd1e-4d01-a22b-68e3ebbf0fe5.png',
-            'https://i.ibb.co/3mkRVnCf/20240623183436.png'
-        ],
-        category: 'home',
-        tags: ['кухня', 'мыло', 'подставка', 'полезное', 'для дома', 'дом']
-    },
-    {
-        id: 3,
-        name: 'Набор для мытья посуды (малый)',
-        price: 1300,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/pBRzvpw0/106ef660-0e52-11f0-8c8e-b3bcabc80b84.jpg',
-            'https://i.ibb.co/yBZqVHCn/DSC01230.png'
-        ],
-        category: 'home',
-        tags: ['посуда', 'кухня', 'мойка', 'дом', 'полезное']
-    },
-    {
-        id: 4,
-        name: 'Футляр для хранения таблеток',
-        price: 500,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/x87wvZJF/IMG-9935-5da726aa-7a5f-401e-9ddb-9fc546234da7.png',
-            'https://i.ibb.co/84NDkKBB/IMG-9946-e571a963-d126-4281-9a22-ac1244eae29b.png',
-            'https://i.ibb.co/jkcbWzN0/IMG-9951-23180e29-2b6b-4ccc-89bb-876242e4cde0.png'
-        ],
-        category: 'home',
-        tags: ['таблетки', 'футляр', 'хранение', 'для дома', 'дом']
-    },
-    {
-        id: 5,
-        name: 'Набор для мытья посуды (большой)',
-        price: 2400,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/RGxx2s1s/C224-B11-D-8-BFD-48-F0-8-EFC-7-D35-E0487-E3-F-1.png',
-            'https://i.ibb.co/cSNPCBQN/IMG-6312.jpg'
-        ],
-        category: 'home',
-        tags: ['посуда', 'кухня', 'мытье', 'дом', 'для дома']
-    },
-    {
-        id: 6,
-        name: 'Ваза',
-        price: 750,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/1Gh4mzTs/04.png',
-            'https://i.ibb.co/GvR3W5dQ/06.png'
-        ],
-        category: 'home',
-        tags: ['ваза', 'декор', 'для дома', 'дом']
-    },
-    {
-        id: 7,
-        name: 'Ваза рифленая (малая)',
-        price: 800,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/rKS0vNTN/Planter-ribbed-04-34bbcaa2-30a0-4153-a007-c57b0c84a8ef.png',
-            'https://i.ibb.co/JRdGYRNx/Planter-ribbed-05-3e29cad0-f8ea-46be-93cd-c23df60a0296.png',
-            'https://i.ibb.co/5X912Q1G/6c169260-2263-11ef-a6a5-7bbdb91d92c3.jpg',
-            'https://i.ibb.co/D6pFv8H/96a41720-a2b2-11f0-a68e-9fe9f897807a.jpg'
-        ],
-        category: 'home',
-        tags: ['ваза', 'цветы', 'для дома', 'дом']
-    },
-    {
-        id: 8,
-        name: 'Ваза с автополивкой',
-        price: 1700,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/jvzf68tv/2941-BECD-F525-4-B56-8-F78-D5636633-BC4-B.png',
-            'https://i.ibb.co/C5MSBHdx/IMG-6601.png',
-            'https://i.ibb.co/0yLLWT7C/IMG-6606.png'
-        ],
-        category: 'home',
-        tags: ['ваза', 'цветы', 'дом', 'для дома']
-    },
-    {
-        id: 9,
-        name: 'Комплект для рассады',
-        price: 1800,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/HL1KxPHH/Self-watering-Seed-starter-2.png',
-            'https://i.ibb.co/RtzZ82R/Self-watering-Seed-starter-3.png',
-            'https://i.ibb.co/pv7b5YR1/HC-1.png'
-        ],
-        category: 'home',
-        tags: ['рассада', 'цветы', 'для дома']
-    },
-    {
-        id: 10,
-        name: 'Диспенсер для бумажных полотенец (малый)',
-        price: 800,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/VkqnwWt/Titel-horizont.png',
-            'https://i.ibb.co/FknXVC8B/0f59646565db459d.jpg'
-        ],
-        category: 'home',
-        tags: ['для дома', 'кухня', 'полотенца']
-    },
-    {
-        id: 11,
-        name: 'Холдер для чайных пакетиков',
-        price: 1000,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/21vFYYgK/TEA001-7.png',
-            'https://i.ibb.co/Xf8MNSBp/89ce0580-1994-11f0-8080-ab13cd97d82e.jpg'
-        ],
-        category: 'home',
-        tags: ['чай', 'кухня', 'для дома']
-    },
-    {
-        id: 12,
-        name: 'Магазин для ААА батареек',
-        price: 650,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/2rbrpY1/Mag-V2-6.png',
-            'https://i.ibb.co/LXQjTJ9b/Mag-V2-7-486f3859-9232-49ac-aa9e-e6e9bebf5c13.png'
-        ],
-        category: 'home',
-        tags: ['батарейки', 'холдер', 'магазин', 'ААА']
-    },
-    {
-        id: 13,
-        name: 'Диспенсер для банок',
-        price: 2000,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/My09Zch6/541821e0-c601-11f0-be47-bb9995818d0e.jpg',
-            'https://i.ibb.co/0pkjSsdP/cab9c120-8775-11f0-89f8-af452bb0ac27.jpg',
-            'https://i.ibb.co/840sbrQz/Can-dispenser-in-use.png',
-            'https://i.ibb.co/XZQcw01t/IMG-2029.png',
-            'https://i.ibb.co/TMzsbJbr/photo-2024-10-28-09-18-42.png'
-        ],
-        category: 'home',
-        tags: ['банки', 'диспенсер', 'кола', 'пиво', 'холодильник', 'кухня', 'дом']
-    },
-    {
-        id: 14,
-        name: 'Тарелка для фисташек со скрытым дном',
-        price: 1200,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/T3XKyX0/DSCF8464.png',
-            'https://i.ibb.co/PGL1rDbd/cover.png'
-        ],
-        category: 'home',
-        tags: ['фисташки', 'тарелка', 'пиво', 'для дома']
-    },
-    {
-        id: 15,
-        name: 'Диспенсер для яиц',
-        price: 1200,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/Mkn7zCkS/image.png',
-            'https://i.ibb.co/pBTBKFdC/IMG-20240922-194506719.webp'
-        ],
-        category: 'home',
-        tags: ['кухня', 'яйца', 'диспенсер', 'дом']
-    },
-    // Новый товар в игрушки (id 16)
-    {
-        id: 16,
-        name: 'Эндер дракон',
-        price: 1000,
-        description: 'Качественная 3D-печать из PLA пластика',
-        images: [
-            'https://i.ibb.co/C3G5bWTn/ender-dragon.gif',
-            'https://i.ibb.co/nKSGVrj/2-JPG.jpg',
-            'https://i.ibb.co/fYv8LN6G/3.jpg'
-        ],
-        category: 'cartoon',
-        tags: ['майнкрафт', 'кубики', 'майн', 'дракон', 'игрушка']
-    }
-];
-
-// ========== КОРЗИНА ==========
-let cart = [];
-let currentCategory = null;
-let searchQuery = '';
-
-// ========== DOM ЭЛЕМЕНТЫ ==========
-const categoryTreeEl = document.getElementById('category-tree');
-const categoryTitle = document.getElementById('category-title');
-const productsContainer = document.getElementById('products-container');
-const cartCount = document.getElementById('cart-count');
-const cartModal = document.getElementById('cart-modal');
-const cartItemsList = document.getElementById('cart-items');
-const cartTotal = document.getElementById('cart-total');
-const closeModal = document.querySelector('.close');
-const floatingCart = document.getElementById('floating-cart');
-const checkoutBtn = document.getElementById('checkout-btn');
-const searchInput = document.getElementById('search-input');
-const contactBtn = document.getElementById('contact-btn');
-const productInfoBtn = document.getElementById('product-info-btn');
-const infoModal = document.getElementById('info-modal');
-const closeInfo = document.querySelector('.close-info');
-
-// Элементы каталога
-const catalogBtn = document.getElementById('catalog-btn');
-const catalogMenu = document.getElementById('catalog-menu');
-const closeCatalog = document.querySelector('.close-catalog');
-
-// Поля для данных клиента
-const customerName = document.getElementById('customer-name');
-const customerPhone = document.getElementById('customer-phone');
-
-// Элементы для модального окна товара
-const productModal = document.getElementById('product-modal');
-const closeProduct = document.querySelector('.close-product');
-const detailImage = document.getElementById('detail-image');
-const detailTitle = document.getElementById('detail-title');
-const detailDescription = document.getElementById('detail-description');
-const detailPrice = document.getElementById('detail-price');
-const detailAddToCart = document.getElementById('detail-add-to-cart');
-const detailThumbnails = document.getElementById('detail-thumbnails');
-
-// ========== ФУНКЦИИ ==========
-
-// Построение дерева категорий
-function buildCategoryTree() {
-    let html = '';
-    categories.forEach(cat => {
-        html += `<li><span class="category-name">${cat.name}</span>`;
-        html += `<ul class="subcategory">`;
-        cat.subcategories.forEach(sub => {
-            html += `<li data-category="${sub.id}">`;
-            if (sub.image) {
-                html += `<img src="${sub.image}" alt="${sub.name}">`;
-            }
-            html += `<span>${sub.name}</span>`;
-            html += `</li>`;
-        });
-        html += `</ul></li>`;
-    });
-    categoryTreeEl.innerHTML = html;
-
-    document.querySelectorAll('.subcategory li').forEach(li => {
-        li.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const categoryId = li.dataset.category;
-            setActiveCategory(categoryId);
-            filterProductsByCategory(categoryId);
-            searchInput.value = '';
-            searchQuery = '';
-            catalogMenu.classList.remove('show');
-        });
-    });
+/* Базовые переменные для светлой темы */
+:root {
+    --bg-overlay: rgba(255, 255, 255, 0.7);
+    --text-primary: #333333;
+    --text-secondary: #2c3e50;
+    --header-bg: rgba(44, 62, 80, 0.95);
+    --card-bg: #ffffff;
+    --card-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    --hover-bg: #ecf0f1;
+    --price-color: #e67e22;
+    --button-bg: #3498db;
+    --button-hover: #2980b9;
+    --catalog-menu-bg: #ffffff;
+    --catalog-menu-border: #ddd;
+    --info-message-bg: rgba(255, 255, 255, 0.9);
+    --info-message-border: #ddd;
+    --link-color: #3498db;
 }
 
-function setActiveCategory(categoryId) {
-    document.querySelectorAll('.subcategory li').forEach(li => {
-        li.classList.remove('active');
-        if (li.dataset.category === categoryId) {
-            li.classList.add('active');
-        }
-    });
-    const cat = categories.flatMap(c => c.subcategories).find(s => s.id === categoryId);
-    categoryTitle.textContent = cat ? cat.name : 'Все товары';
+/* Тёмная тема */
+body.theme-dark {
+    --bg-overlay: rgba(0, 0, 0, 0.7);
+    --text-primary: #f0f0f0;
+    --text-secondary: #cccccc;
+    --header-bg: rgba(0, 0, 0, 0.95);
+    --card-bg: #3a3a3a;
+    --card-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    --hover-bg: #4a4a4a;
+    --price-color: #ffb347;
+    --button-bg: #555555;
+    --button-hover: #666666;
+    --catalog-menu-bg: #2d2d2d;
+    --catalog-menu-border: #444;
+    --info-message-bg: rgba(45, 45, 45, 0.9);
+    --info-message-border: #555;
+    --link-color: #5faee3;
 }
 
-function filterProductsByCategory(categoryId) {
-    currentCategory = categoryId;
-    renderProducts();
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1950&auto=format') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+    padding-top: 120px;
 }
 
-function renderProducts() {
-    let filtered = products;
-    if (currentCategory) {
-        filtered = filtered.filter(p => p.category === currentCategory);
-    }
-    if (searchQuery) {
-        filtered = filtered.filter(p => 
-            p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            p.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-        );
-    }
-
-    productsContainer.innerHTML = '';
-    if (filtered.length === 0) {
-        productsContainer.innerHTML = '<p>Нет товаров по вашему запросу</p>';
-        return;
-    }
-    filtered.forEach(product => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.dataset.id = product.id;
-        const mainImage = product.images[0] || 'https://via.placeholder.com/300';
-        card.innerHTML = `
-            <img src="${mainImage}" alt="${product.name}">
-            <div class="info">
-                <h3>${product.name}</h3>
-                <p class="description">${product.description}</p>
-                <p class="price">${product.price} руб.</p>
-            </div>
-            <button onclick="addToCart(${product.id})">В корзину</button>
-        `;
-        productsContainer.appendChild(card);
-    });
-
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', (e) => {
-            if (e.target.tagName === 'BUTTON') return;
-            const productId = parseInt(card.dataset.id);
-            const product = products.find(p => p.id === productId);
-            if (product) {
-                showProductDetail(product);
-            }
-        });
-    });
+/* Фиксированная шапка */
+.sticky-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--header-bg);
+    backdrop-filter: blur(5px);
+    color: white;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    transition: background 0.3s;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
-// Показать детальную информацию с галереей
-function showProductDetail(product) {
-    detailImage.src = product.images[0] || 'https://via.placeholder.com/300';
-    detailImage.alt = product.name;
-    detailTitle.textContent = product.name;
-    detailDescription.textContent = product.description;
-    detailPrice.textContent = product.price + ' руб.';
-    
-    detailThumbnails.innerHTML = '';
-    product.images.forEach((imgSrc, index) => {
-        const thumb = document.createElement('img');
-        thumb.src = imgSrc;
-        thumb.alt = `${product.name} - фото ${index+1}`;
-        thumb.classList.add('thumbnail');
-        if (index === 0) thumb.classList.add('active-thumbnail');
-        thumb.addEventListener('click', () => {
-            detailImage.src = imgSrc;
-            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active-thumbnail'));
-            thumb.classList.add('active-thumbnail');
-        });
-        detailThumbnails.appendChild(thumb);
-    });
-
-    detailAddToCart.onclick = () => {
-        addToCart(product.id);
-        productModal.style.display = 'none';
-    };
-    productModal.style.display = 'block';
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-searchInput.addEventListener('input', (e) => {
-    searchQuery = e.target.value;
-    renderProducts();
-});
-
-window.addToCart = function(productId) {
-    const existing = cart.find(item => item.id === productId);
-    if (existing) {
-        existing.quantity++;
-    } else {
-        cart.push({ id: productId, quantity: 1 });
-    }
-    updateCartUI();
-};
-
-window.removeFromCart = function(productId) {
-    cart = cart.filter(item => item.id !== productId);
-    updateCartUI();
-    if (cartModal.style.display === 'block') {
-        renderCartModal();
-    }
-};
-
-function updateCartUI() {
-    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-    cartCount.textContent = totalItems;
+.header-left h1 {
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+    white-space: nowrap;
 }
 
-function renderCartModal() {
-    cartItemsList.innerHTML = '';
-    let total = 0;
-
-    cart.forEach(item => {
-        const product = products.find(p => p.id === item.id);
-        if (product) {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <span>${product.name} x${item.quantity}</span>
-                <span>${product.price * item.quantity} руб.</span>
-                <button onclick="removeFromCart(${item.id})">Удалить</button>
-            `;
-            cartItemsList.appendChild(li);
-            total += product.price * item.quantity;
-        }
-    });
-
-    cartTotal.textContent = total;
+/* Увеличенная и яркая кнопка каталога */
+.catalog-btn {
+    background: var(--price-color);
+    color: white;
+    border: 2px solid white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 0.7rem 1.5rem;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    white-space: nowrap;
+    letter-spacing: 0.5px;
 }
 
-async function sendOrderToTelegram() {
-    if (cart.length === 0) {
-        alert('Корзина пуста');
-        return;
-    }
+.catalog-btn:hover {
+    background: var(--button-hover);
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    border-color: #f0f0f0;
+}
 
-    const name = customerName.value.trim();
-    const phone = customerPhone.value.trim();
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
 
-    if (!name || !phone) {
-        alert('Пожалуйста, введите имя и контактный телефон');
-        return;
-    }
+/* Поле поиска фиксированной ширины */
+.search-wrapper {
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+}
 
-    let message = '🛒 *Новый заказ с сайта*\n\n';
-    message += `👤 *Имя:* ${name}\n`;
-    message += `📞 *Телефон:* ${phone}\n\n`;
-    message += '*Состав заказа:*\n';
-    
-    let total = 0;
-    cart.forEach(item => {
-        const product = products.find(p => p.id === item.id);
-        if (product) {
-            message += `• ${product.name} x${item.quantity} = ${product.price * item.quantity} руб.\n`;
-            total += product.price * item.quantity;
-        }
-    });
-    message += `\n*Итого: ${total} руб.*`;
+#search-input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 30px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+    transition: border 0.3s;
+}
 
-    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-    const payload = {
-        chat_id: TELEGRAM_CHAT_ID,
-        text: message,
-        parse_mode: 'Markdown'
-    };
+#search-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        const data = await response.json();
-        if (data.ok) {
-            alert('Заказ успешно отправлен в Telegram!');
-            cart = [];
-            customerName.value = '';
-            customerPhone.value = '';
-            updateCartUI();
-            cartModal.style.display = 'none';
-        } else {
-            alert('Ошибка отправки: ' + data.description);
-        }
-    } catch (error) {
-        alert('Ошибка соединения с Telegram');
-        console.error(error);
+.header-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+    white-space: nowrap;
+}
+
+.header-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.theme-toggle {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+    transition: background 0.3s;
+}
+
+.theme-toggle:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* Выпадающее меню каталога */
+.catalog-menu {
+    display: none;
+    position: fixed;
+    top: 100px;
+    left: 0;
+    width: 300px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    background: var(--catalog-menu-bg);
+    border-right: 1px solid var(--catalog-menu-border);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    z-index: 999;
+    padding: 1.5rem;
+    color: var(--text-primary);
+}
+
+.catalog-menu.show {
+    display: block;
+}
+
+.catalog-menu-content {
+    position: relative;
+}
+
+.close-catalog {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+.close-catalog:hover {
+    color: #e74c3c;
+}
+
+.catalog-menu h2 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.category-tree {
+    list-style: none;
+}
+
+.category-tree li {
+    margin: 0.5rem 0;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.category-tree .category-name {
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 0.3rem 0;
+    display: block;
+}
+
+.category-tree .category-name:hover {
+    color: #3498db;
+}
+
+.category-tree .subcategory {
+    margin-left: 1.5rem;
+    list-style: none;
+    font-size: 0.95rem;
+}
+
+.category-tree .subcategory li {
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.category-tree .subcategory li:hover {
+    background: var(--hover-bg);
+}
+
+.category-tree .subcategory li.active {
+    background: #3498db;
+    color: white;
+}
+
+.category-tree .subcategory li.active:hover {
+    background: #2980b9;
+}
+
+.category-tree .subcategory img {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 140px);
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    background: var(--bg-overlay);
+    backdrop-filter: blur(3px);
+    transition: background 0.3s;
+}
+
+/* Приветственное информационное поле */
+.info-message {
+    background: var(--info-message-bg);
+    border-left: 5px solid #3498db;
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-size: 1rem;
+    backdrop-filter: blur(3px);
+}
+
+.info-message p {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.info-message p:last-child {
+    margin-bottom: 0;
+}
+
+.info-message a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px dashed;
+}
+
+.info-message a:hover {
+    border-bottom-style: solid;
+}
+
+.content {
+    flex: 1;
+}
+
+.content h2 {
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.product-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #444;
+}
+
+.product-card .info {
+    padding: 1.2rem;
+    flex: 1;
+}
+
+.product-card h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+.product-card .description {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+}
+
+.product-card .price {
+    font-weight: 700;
+    color: var(--price-color);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.product-card button {
+    background: var(--button-bg);
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.product-card button:hover {
+    background: var(--button-hover);
+}
+
+/* Плавающая кнопка корзины */
+.floating-cart {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--button-bg);
+    color: white;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    z-index: 999;
+}
+
+.floating-cart:hover {
+    background: var(--button-hover);
+    transform: scale(1.1);
+}
+
+.floating-cart span {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #e74c3c;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    min-width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Модальные окна */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 450px;
+    max-width: 90%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+    color: var(--text-primary);
+}
+
+.modal-extra-large {
+    width: 90vw;
+    max-width: 1200px;
+    margin: 2% auto;
+}
+
+@media (max-width: 768px) {
+    .modal-extra-large {
+        width: 95vw;
+        margin: 5% auto;
     }
 }
 
-// ========== ОБРАБОТЧИКИ ==========
+.close, .close-info, .close-product {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
 
-// Каталог
-catalogBtn.addEventListener('click', () => {
-    catalogMenu.classList.toggle('show');
-});
+.close:hover, .close-info:hover, .close-product:hover {
+    color: black;
+}
 
-closeCatalog.addEventListener('click', () => {
-    catalogMenu.classList.remove('show');
-});
+/* Галерея в детальном просмотре */
+.detail-gallery {
+    width: 50%;
+}
 
-window.addEventListener('click', (event) => {
-    if (!catalogMenu.contains(event.target) && !catalogBtn.contains(event.target)) {
-        catalogMenu.classList.remove('show');
+#detail-image {
+    width: 100%;
+    max-height: 60vh;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.thumbnail-container {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.thumbnail {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border 0.2s, opacity 0.2s;
+}
+
+.thumbnail:hover {
+    opacity: 0.8;
+}
+
+.thumbnail.active-thumbnail {
+    border-color: var(--price-color);
+}
+
+.product-detail {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.detail-info {
+    flex: 1;
+}
+
+.detail-info h2 {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.detail-info p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.detail-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--price-color);
+    margin: 1.5rem 0;
+}
+
+.add-to-cart-btn {
+    background: var(--button-bg);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+.add-to-cart-btn:hover {
+    background: var(--button-hover);
+}
+
+@media (max-width: 768px) {
+    .product-detail {
+        flex-direction: column;
     }
-});
-
-// Корзина
-floatingCart.addEventListener('click', () => {
-    renderCartModal();
-    cartModal.style.display = 'block';
-});
-
-closeModal.addEventListener('click', () => {
-    cartModal.style.display = 'none';
-});
-
-window.addEventListener('click', (event) => {
-    if (event.target === cartModal) {
-        cartModal.style.display = 'none';
+    .detail-gallery {
+        width: 100%;
     }
-});
-
-checkoutBtn.addEventListener('click', sendOrderToTelegram);
-
-// Модальное окно информации о продукции
-productInfoBtn.addEventListener('click', () => {
-    infoModal.style.display = 'block';
-});
-
-closeInfo.addEventListener('click', () => {
-    infoModal.style.display = 'none';
-});
-
-window.addEventListener('click', (event) => {
-    if (event.target === infoModal) {
-        infoModal.style.display = 'none';
+    .product-detail img {
+        width: 100%;
+        max-height: 50vh;
     }
-});
+}
 
-// Модальное окно товара
-closeProduct.addEventListener('click', () => {
-    productModal.style.display = 'none';
-});
+#cart-items {
+    list-style: none;
+    margin: 1rem 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
 
-window.addEventListener('click', (event) => {
-    if (event.target === productModal) {
-        productModal.style.display = 'none';
+#cart-items li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #444;
+}
+
+#cart-items button {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#cart-items button:hover {
+    background: #c0392b;
+}
+
+.checkout-form {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.checkout-form input {
+    padding: 0.8rem;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.checkout-form input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.cart-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+#checkout-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+}
+
+#checkout-btn:hover {
+    background: #2ecc71;
+}
+
+.send-btn {
+    background: #0088cc;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.send-btn:hover {
+    background: #0077b5;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    body {
+        padding-top: 150px;
     }
-});
-
-// Контакты (открывает Telegram-канал)
-contactBtn.addEventListener('click', () => {
-    window.open('https://t.me/Alexxandre_97', '_blank');
-});
-
-// ========== ИНИЦИАЛИЗАЦИЯ ==========
-buildCategoryTree();
-renderProducts();
+    .header-left h1 {
+        font-size: 1rem;
+    }
+    .catalog-btn {
+        font-size: 1rem;
+        padding: 0.4rem 1rem;
+        border-width: 1px;
+    }
+    .header-right {
+        justify-content: center;
+    }
+    .header-btn {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+    }
+    .theme-toggle {
+        font-size: 1.2rem;
+        padding: 0.2rem 0.6rem;
+    }
+    .search-wrapper {
+        width: 150px;
+        min-width: 150px;
+        max-width: 150px;
+    }
+    .info-message {
+        font-size: 0.9rem;
+    }
+}
