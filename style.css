@@ -49,7 +49,7 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     transition: background-color 0.3s, color 0.3s;
-    padding-top: 120px; /* Отступ под фиксированную шапку */
+    padding-top: 120px;
 }
 
 /* Фиксированная шапка */
@@ -489,12 +489,7 @@ main {
     color: black;
 }
 
-.product-detail {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-}
-
+/* Галерея в детальном просмотре */
 .detail-gallery {
     width: 50%;
 }
@@ -530,6 +525,12 @@ main {
 
 .thumbnail.active-thumbnail {
     border-color: var(--price-color);
+}
+
+.product-detail {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
 }
 
 .detail-info {
@@ -576,7 +577,8 @@ main {
     .detail-gallery {
         width: 100%;
     }
-    .detail-image {
+    .product-detail img {
+        width: 100%;
         max-height: 50vh;
     }
 }
