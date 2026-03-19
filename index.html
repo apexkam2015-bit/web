@@ -5,32 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Print Shop</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Подключение шрифта Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="theme-light">
-    <!-- Фиксированная шапка -->
     <header class="sticky-header">
         <div class="header-left">
             <button id="catalog-btn" class="catalog-btn">📋 Каталог</button>
             <h1>Камчатский магазин 3Д печати</h1>
         </div>
         <div class="header-right">
-            <!-- Поле поиска (фиксированная ширина) -->
             <div class="search-wrapper">
                 <input type="text" id="search-input" placeholder="Поиск..." />
             </div>
-            <!-- Кнопки -->
             <button id="product-info-btn" class="header-btn" title="Информация о продукции">ℹ️ О продукции</button>
             <button id="contact-btn" class="header-btn" title="Наши контакты">📞 Контакты</button>
-            <!-- Переключатель темы -->
             <button id="theme-toggle" class="theme-toggle">🌙</button>
         </div>
     </header>
 
-    <!-- Выпадающее меню каталога -->
     <div id="catalog-menu" class="catalog-menu">
         <div class="catalog-menu-content">
             <button class="close-catalog">&times;</button>
@@ -40,45 +34,38 @@
     </div>
 
     <main>
-        <!-- Приветственное информационное поле -->
         <div class="info-message">
             <p>🔍 Если вы не нашли модель, которая вас интересует, вы всегда можете воспользоваться сайтом <a href="https://makerworld.com/ru" target="_blank">makerworld.com/ru</a></p>
             <p>📬 Просто сбросьте нам ссылку на нужную вам модель в наш телеграмм, после чего мы сможем распечатать ее для вас.</p>
             <p>📲 Наш телеграмм: <a href="https://t.me/Alexxandre_97" target="_blank">@Alexxandre_97</a></p>
         </div>
 
-        <!-- Основной контент -->
         <section class="content">
             <h2 id="category-title">Все товары</h2>
             <div class="products" id="products-container"></div>
         </section>
     </main>
 
-    <!-- Плавающая кнопка корзины -->
     <div id="floating-cart" class="floating-cart">
         🛒 <span id="cart-count">0</span>
     </div>
 
-    <!-- Модальное окно корзины -->
     <div id="cart-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Корзина</h2>
             <ul id="cart-items"></ul>
             <p>Итого: <span id="cart-total">0</span> руб.</p>
-            
             <div class="checkout-form">
                 <input type="text" id="customer-name" placeholder="Ваше имя" required>
                 <input type="tel" id="customer-phone" placeholder="Контактный телефон" required>
             </div>
-
             <div class="cart-actions">
                 <button id="checkout-btn">Оформить заказ</button>
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно информации о продукции -->
     <div id="info-modal" class="modal">
         <div class="modal-content modal-extra-large">
             <span class="close-info">&times;</span>
@@ -87,7 +74,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно детального просмотра товара (с галереей) -->
     <div id="product-modal" class="modal">
         <div class="modal-content modal-extra-large">
             <span class="close-product">&times;</span>
