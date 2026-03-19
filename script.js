@@ -1,5 +1,9 @@
 // ========== НАСТРОЙКИ ==========
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwksaZUbabzeViDLrnVkj_nnlBEhyxWAXE9zpg96M6nyP652EShgkMo-Ysd02qRLNSt/exec'; // ЗАМЕНИТЕ НА СВОЙ URL
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwCbGohs3VTjTFe_H4Fgc_qzDGR4DXZps56As_rgTiTITqtBSEjfGUw-OfbuE-In45m/exec'; // ЗАМЕНИТЕ НА СВОЙ URL
+
+// ========== НАСТРОЙКИ TELEGRAM (заполните своими данными) ==========
+const TELEGRAM_BOT_TOKEN = '8798119858:AAF_07GNJPz0lep_Vplkv930jVtlASZ2byU';
+const TELEGRAM_CHAT_ID = '-5291424885';
 
 // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ==========
 const themeToggle = document.getElementById('theme-toggle');
@@ -379,4 +383,4 @@ contactBtn.addEventListener('click', () => {
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 buildCategoryTree();
-loadProducts(); // загружаем товары из таблицы
+loadProducts();
