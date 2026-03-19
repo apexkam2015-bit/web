@@ -1,5 +1,5 @@
 // ========== НАСТРОЙКИ ==========
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwCbGohs3VTjTFe_H4Fgc_qzDGR4DXZps56As_rgTiTITqtBSEjfGUw-OfbuE-In45m/exec'; // ЗАМЕНИТЕ НА СВОЙ URL
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxf3XKrQrEVbwWBglJngiNy0kVabJZri8Ind72e94HxYC0ocCX6sG2zUH2MkZTNK-k/exec'; // ЗАМЕНИТЕ НА СВОЙ URL
 const TELEGRAM_BOT_TOKEN = '8798119858:AAF_07GNJPz0lep_Vplkv930jVtlASZ2byU';      // замените на реальный токен
 const TELEGRAM_CHAT_ID = '-5291424885';           // замените на ваш chat_id
 
