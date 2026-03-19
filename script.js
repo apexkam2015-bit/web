@@ -1,9 +1,7 @@
 // ========== НАСТРОЙКИ ==========
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwCbGohs3VTjTFe_H4Fgc_qzDGR4DXZps56As_rgTiTITqtBSEjfGUw-OfbuE-In45m/exec'; // ЗАМЕНИТЕ НА СВОЙ URL
-
-// ========== НАСТРОЙКИ TELEGRAM (заполните своими данными) ==========
-const TELEGRAM_BOT_TOKEN = '8798119858:AAF_07GNJPz0lep_Vplkv930jVtlASZ2byU';
-const TELEGRAM_CHAT_ID = '-5291424885';
+const TELEGRAM_BOT_TOKEN = '8798119858:AAF_07GNJPz0lep_Vplkv930jVtlASZ2byU';      // замените на реальный токен
+const TELEGRAM_CHAT_ID = '-5291424885';           // замените на ваш chat_id
 
 // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ==========
 const themeToggle = document.getElementById('theme-toggle');
@@ -85,16 +83,53 @@ const detailDescription = document.getElementById('detail-description');
 const detailPrice = document.getElementById('detail-price');
 const detailAddToCart = document.getElementById('detail-add-to-cart');
 const detailThumbnails = document.getElementById('detail-thumbnails');
+const loadingSpinner = document.getElementById('loading-spinner');
 
-// ========== ЗАГРУЗКА ТОВАРОВ ИЗ GOOGLE SHEETS ==========
+// ========== ЗАГРУЗКА ТОВАРОВ С КЭШИРОВАНИЕМ ==========
 async function loadProducts() {
+    // Пытаемся загрузить из кэша (если не старше 1 минуты)
+    const cached = localStorage.getItem('products_cache');
+    const cacheTime = localStorage.getItem('products_cache_time');
+    const now = Date.now();
+    if (cached && cacheTime && (now - parseInt(cacheTime)) < 60000) { // 1 минута
+        products = JSON.parse(cached);
+        renderProducts();
+        // В фоне обновляем кэш
+        refreshProductsInBackground();
+        return;
+    }
+
+    // Показываем спиннер
+    if (loadingSpinner) loadingSpinner.style.display = 'block';
+    if (productsContainer) productsContainer.style.opacity = '0.5';
+
     try {
         const response = await fetch(APPS_SCRIPT_URL);
         products = await response.json();
+        // Сохраняем в кэш
+        localStorage.setItem('products_cache', JSON.stringify(products));
+        localStorage.setItem('products_cache_time', now.toString());
         renderProducts();
     } catch (error) {
         console.error('Ошибка загрузки товаров:', error);
         productsContainer.innerHTML = '<p>Не удалось загрузить товары. Попробуйте позже.</p>';
+    } finally {
+        if (loadingSpinner) loadingSpinner.style.display = 'none';
+        if (productsContainer) productsContainer.style.opacity = '1';
+    }
+}
+
+async function refreshProductsInBackground() {
+    try {
+        const response = await fetch(APPS_SCRIPT_URL);
+        const freshProducts = await response.json();
+        localStorage.setItem('products_cache', JSON.stringify(freshProducts));
+        localStorage.setItem('products_cache_time', Date.now().toString());
+        // Если пользователь всё ещё на странице, обновляем отображение (опционально)
+        products = freshProducts;
+        renderProducts();
+    } catch (e) {
+        // игнорируем ошибки фоновой загрузки
     }
 }
 
