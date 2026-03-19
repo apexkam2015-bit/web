@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-панель магазина</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f2f2f2; }
+        .login-form, .admin-panel { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, textarea, select, button { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        button { background: #27ae60; color: white; border: none; cursor: pointer; }
+        button:hover { background: #2ecc71; }
+        .error { color: red; }
+        .success { color: green; }
+        .note { background: #f9f9f9; padding: 10px; margin: 10px 0; border-left: 4px solid #3498db; }
+    </style>
+</head>
+<body>
+    <div id="loginForm" class="login-form">
+        <h2>Вход для администратора</h2>
+        <input type="password" id="passwordInput" placeholder="Пароль">
+        <button onclick="checkPassword()">Войти</button>
+        <p id="loginError" class="error"></p>
+    </div>
+
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <h2>Добавление товара</h2>
+        <div class="note">
+            <strong>Важно:</strong> Картинки нужно предварительно загрузить на хостинг (например, <a href="https://imgbb.com" target="_blank">ImgBB</a>) и вставить ссылки через запятую.
+        </div>
+        <form id="addProductForm">
+            <input type="text" id="name" placeholder="Название" required>
+            <input type="number" id="price" placeholder="Цена" required>
+            <textarea id="description" placeholder="Описание" required></textarea>
+            <input type="text" id="images" placeholder="Ссылки на картинки (через запятую)" required>
+            <select id="category" required>
+                <option value="">-- Выберите категорию --</option>
+                <option value="cartoon">Мультики</option>
+                <option value="animals">Животные</option>
+                <option value="home">Для дома</option>
+                <option value="garage">Для гаража</option>
+                <option value="ground">Наземная техника</option>
+                <option value="air">Авиатехника</option>
+            </select>
+            <input type="text" id="tags" placeholder="Теги (через запятую)" required>
+            <button type="submit">Добавить товар</button>
+        </form>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        // НАСТРОЙКИ – ЗАМЕНИТЕ НА СВОИ
+        const ADMIN_PASSWORD = 'admin123'; // установите свой пароль
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/ВАШ_ИД/exec'; // URL вашего веб-приложения
+
+        function checkPassword() {
+            const pwd = document.getElementById('passwordInput').value;
+            if (pwd === ADMIN_PASSWORD) {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('loginError').innerText = '';
+            } else {
+                document.getElementById('loginError').innerText = 'Неверный пароль';
+            }
+        }
+
+        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const product = {
+                name: document.getElementById('name').value,
+                price: Number(document.getElementById('price').value),
+                description: document.getElementById('description').value,
+                images: document.getElementById('images').value.split(',').map(s => s.trim()),
+                category: document.getElementById('category').value,
+                tags: document.getElementById('tags').value.split(',').map(s => s.trim())
+            };
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(product),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const result = await response.json();
+                if (result.success) {
+                    document.getElementById('result').innerHTML = '<span class="success">✅ Товар успешно добавлен! ID: ' + result.id + '</span>';
+                    form.reset();
+                } else {
+                    document.getElementById('result').innerHTML = '<span class="error">❌ Ошибка: ' + JSON.stringify(result) + '</span>';
+                }
+            } catch (err) {
+                document.getElementById('result').innerHTML = '<span class="error">❌ Ошибка соединения: ' + err + '</span>';
+            }
+        });
+    </script>
+</body>
+</html>
