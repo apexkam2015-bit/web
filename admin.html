@@ -25,13 +25,13 @@
     <div id="adminPanel" class="admin-panel" style="display: none;">
         <h2>Добавление товара</h2>
         <div class="note">
-            <strong>Важно:</strong> Картинки нужно предварительно загрузить на хостинг (например, <a href="https://imgbb.com" target="_blank">ImgBB</a>) и вставить ссылки через запятую.
+            <strong>Важно:</strong> Картинки нужно предварительно загрузить на хостинг (например, <a href="https://imgbb.com" target="_blank">ImgBB</a>) и вставить ссылки через вертикальную черту <code>|</code>.
         </div>
         <form id="addProductForm">
             <input type="text" id="name" placeholder="Название" required>
             <input type="number" id="price" placeholder="Цена" required>
             <textarea id="description" placeholder="Описание" required></textarea>
-            <input type="text" id="images" placeholder="Ссылки на картинки (через запятую)" required>
+            <input type="text" id="images" placeholder="Ссылки на картинки (через |)" required>
             <select id="category" required>
                 <option value="">-- Выберите категорию --</option>
                 <option value="cartoon">Мультики</option>
@@ -41,7 +41,7 @@
                 <option value="ground">Наземная техника</option>
                 <option value="air">Авиатехника</option>
             </select>
-            <input type="text" id="tags" placeholder="Теги (через запятую)" required>
+            <input type="text" id="tags" placeholder="Теги (через |)" required>
             <button type="submit">Добавить товар</button>
         </form>
         <p id="result"></p>
@@ -70,9 +70,9 @@
                 name: document.getElementById('name').value,
                 price: Number(document.getElementById('price').value),
                 description: document.getElementById('description').value,
-                images: document.getElementById('images').value.split(',').map(s => s.trim()),
+                images: document.getElementById('images').value.split('|').map(s => s.trim()),
                 category: document.getElementById('category').value,
-                tags: document.getElementById('tags').value.split(',').map(s => s.trim())
+                tags: document.getElementById('tags').value.split('|').map(s => s.trim())
             };
 
             // Преобразуем данные в формат application/x-www-form-urlencoded
