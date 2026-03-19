@@ -85,6 +85,23 @@ const detailAddToCart = document.getElementById('detail-add-to-cart');
 const detailThumbnails = document.getElementById('detail-thumbnails');
 const loadingSpinner = document.getElementById('loading-spinner');
 
+// ========== ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ДЛЯ ПРЕОБРАЗОВАНИЯ В МАССИВ ==========
+function ensureArray(value) {
+    if (Array.isArray(value)) return value;
+    if (typeof value === 'string' && value.trim() !== '') {
+        // Если строка, разбиваем по разделителю | (или , на случай если старые данные)
+        // Сначала пробуем |, если нет, то ,
+        if (value.includes('|')) {
+            return value.split('|').map(s => s.trim());
+        } else if (value.includes(',')) {
+            return value.split(',').map(s => s.trim());
+        } else {
+            return [value.trim()];
+        }
+    }
+    return [];
+}
+
 // ========== ЗАГРУЗКА ТОВАРОВ С КЭШИРОВАНИЕМ ==========
 async function loadProducts() {
     // Пытаемся загрузить из кэша (если не старше 1 минуты)
@@ -93,6 +110,12 @@ async function loadProducts() {
     const now = Date.now();
     if (cached && cacheTime && (now - parseInt(cacheTime)) < 60000) { // 1 минута
         products = JSON.parse(cached);
+        // Преобразуем images и tags в массивы, если вдруг в кэше они хранятся как строки
+        products = products.map(p => ({
+            ...p,
+            images: ensureArray(p.images),
+            tags: ensureArray(p.tags)
+        }));
         renderProducts();
         // В фоне обновляем кэш
         refreshProductsInBackground();
@@ -105,7 +128,13 @@ async function loadProducts() {
 
     try {
         const response = await fetch(APPS_SCRIPT_URL);
-        products = await response.json();
+        const rawProducts = await response.json();
+        // Приводим images и tags к массиву
+        products = rawProducts.map(p => ({
+            ...p,
+            images: ensureArray(p.images),
+            tags: ensureArray(p.tags)
+        }));
         // Сохраняем в кэш
         localStorage.setItem('products_cache', JSON.stringify(products));
         localStorage.setItem('products_cache_time', now.toString());
@@ -123,10 +152,15 @@ async function refreshProductsInBackground() {
     try {
         const response = await fetch(APPS_SCRIPT_URL);
         const freshProducts = await response.json();
-        localStorage.setItem('products_cache', JSON.stringify(freshProducts));
+        const prepared = freshProducts.map(p => ({
+            ...p,
+            images: ensureArray(p.images),
+            tags: ensureArray(p.tags)
+        }));
+        localStorage.setItem('products_cache', JSON.stringify(prepared));
         localStorage.setItem('products_cache_time', Date.now().toString());
         // Если пользователь всё ещё на странице, обновляем отображение
-        products = freshProducts;
+        products = prepared;
         renderProducts();
     } catch (e) {
         // игнорируем ошибки фоновой загрузки
@@ -188,7 +222,7 @@ function renderProducts() {
     if (searchQuery) {
         filtered = filtered.filter(p => 
             p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            p.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+            (Array.isArray(p.tags) && p.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())))
         );
     }
 
@@ -198,10 +232,11 @@ function renderProducts() {
         return;
     }
     filtered.forEach(product => {
+        const imagesArray = ensureArray(product.images);
+        const mainImage = imagesArray.length > 0 ? imagesArray[0] : 'https://via.placeholder.com/300';
         const card = document.createElement('div');
         card.className = 'product-card';
         card.dataset.id = product.id;
-        const mainImage = product.images[0] || 'https://via.placeholder.com/300';
         card.innerHTML = `
             <img src="${mainImage}" alt="${product.name}">
             <div class="info">
@@ -227,14 +262,15 @@ function renderProducts() {
 }
 
 function showProductDetail(product) {
-    detailImage.src = product.images[0] || 'https://via.placeholder.com/300';
+    const imagesArray = ensureArray(product.images);
+    detailImage.src = imagesArray.length > 0 ? imagesArray[0] : 'https://via.placeholder.com/300';
     detailImage.alt = product.name;
     detailTitle.textContent = product.name;
     detailDescription.textContent = product.description;
     detailPrice.textContent = product.price + ' руб.';
     
     detailThumbnails.innerHTML = '';
-    product.images.forEach((imgSrc, index) => {
+    imagesArray.forEach((imgSrc, index) => {
         const thumb = document.createElement('img');
         thumb.src = imgSrc;
         thumb.alt = `${product.name} - фото ${index+1}`;
