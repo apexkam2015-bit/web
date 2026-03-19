@@ -125,7 +125,7 @@ async function refreshProductsInBackground() {
         const freshProducts = await response.json();
         localStorage.setItem('products_cache', JSON.stringify(freshProducts));
         localStorage.setItem('products_cache_time', Date.now().toString());
-        // Если пользователь всё ещё на странице, обновляем отображение (опционально)
+        // Если пользователь всё ещё на странице, обновляем отображение
         products = freshProducts;
         renderProducts();
     } catch (e) {
